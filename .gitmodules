@@ -1,0 +1,3 @@
+[submodule "docker-templates"]
+	path = docker-templates
+	url = git@github.com:abstracted/docker-templates.git
