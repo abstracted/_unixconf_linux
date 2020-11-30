@@ -1,0 +1,111 @@
+---
+- name: Write pacman configuration files
+  template:
+    src: '{{ item }}'
+    dest: '{{ item | regex_replace("../templates","") | regex_replace("\.j2","") }}'
+    backup: yes
+  become: yes
+  with_items: 
+    - '../templates/etc/pacman.conf.j2'
+    - '../templates/etc/makepkg.conf.j2'
+
+- name: Create ssh_known_hosts if not exists
+  file:
+    path: /etc/ssh/ssh_known_hosts
+    owner: root
+    state: touch
+    mode: 644
+  become: yes
+
+- name: Add known hosts for package servers
+  lineinfile:
+    dest: /etc/ssh/ssh_known_hosts
+    state: present
+    line: "{{ item }}"
+  with_items: "{{ packages_ssh_known_hosts }}"
+  when: packages_ssh_known_hosts is defined and packages_ssh_known_hosts | length > 0
+
+- name: Add pacman keyfiles
+  command: "curl -f {{ item }} -o /tmp/keyfile.key && pacman-key --add /tmp/keyfile.key"
+  with_items: "{{ packages_key_files }}"
+  become: yes
+  become_user: root
+  ignore_errors: yes
+  when: packages_key_files is defined and packages_key_files | length > 0
+
+- name: Add pacman keys
+  command: "pacman-key --recv-keys {{ item }}"
+  with_items: "{{ packages_key_ids }}"
+  become: yes
+  become_user: root
+  ignore_errors: yes
+  when: packages_key_ids is defined and packages_key_ids | length > 0
+
+- name: Sign pacman keys
+  command: "pacman-key --lsign-key {{ item }}"
+  with_items: "{{ packages_key_ids }}"
+  become: yes
+  become_user: root
+  ignore_errors: yes
+  when: packages_key_ids is defined and packages_key_ids | length > 0
+
+- name: Configure user to install packages
+  block:
+    - name: Create yay user and assign to group
+      user:
+        name: yay
+        group: wheel
+        append: yes
+      become: yes
+    
+    - name: Allow yay user to install packages without a password
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        line: "yay ALL=(ALL) NOPASSWD:{{ item }}*"
+      with_items: "{{ sudo.nopasswd | json_query('[?name==`yay`].commands') }}"
+      become: yes
+
+- name: "Check if the Yay package manager exists on system."
+  command: "pacman -Q yay"
+  register: package_yay_state
+  ignore_errors: yes
+
+- name: Install Yay package manager
+  block:
+    - name: "Check if yay source dir already exists in yay's home directory"
+      stat:
+        path: /home/yay/yay/PKGBUILD
+      become: yes
+      become_user: yay
+      register: yay_dir
+
+    - name: Install yay dependencies
+      pacman:
+        name: go
+        state: present
+        update_cache: yes
+      become: yes
+
+    - name: Remove existing yay source dir if no PKGBUILD exists in it
+      command: rm -rfv /home/yay/yay
+      become: yes
+      become_user: yay
+      when: yay_dir.stat.exists != True
+
+    - name: Clone Yay package manager git repository to /home/yay/yay
+      git:
+        repo: https://aur.archlinux.org/yay.git
+        dest: /home/yay/yay
+        force: true
+      become: yes
+      become_user: yay
+      when: yay_dir.stat.exists != True
+
+    - name: Install Yay package manager
+      command: makepkg -si --noconfirm > ./makepkg-yay.log
+      become: yes
+      become_user: yay
+      args:
+        chdir: /home/yay/yay
+  when: package_yay_state.rc != 0

@@ -1,0 +1,26 @@
+firewall:
+  ports:
+    nextcloud_https: "{{ docker.vars.nextcloud.ports.https }}"
+    nextcloud_sql: "{{ docker.vars.nextcloud.ports.sql }}"
+
+
+docker:
+  containers:
+    - name: nextcloud
+      dir: /mnt/CAMERON/Server/nextcloud
+      state: present
+
+  vars:
+    nextcloud:
+      env:
+        mysql_db_name: "nextcloud_db"
+      volumes:
+        ext_cameron: /mnt/CAMERON
+        ext_rae: /mnt/RAE
+        appdata: /mnt/CAMERON/Server/nextcloud/appdata
+        data: /mnt/CAMERON/Server/nextcloud/data
+        sql: /mnt/CAMERON/Server/nextcloud/sql
+      ports:
+        http: 10080
+        https: 10443
+        sql: 13306

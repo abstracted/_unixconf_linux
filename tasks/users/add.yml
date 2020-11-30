@@ -1,0 +1,13 @@
+---
+# These tasks must run before facts.yml
+- include: setup.yml
+- include: install.yml
+
+- include: facts.yml
+
+# These tasks must run after facts.yml
+- include: service_setup.yml
+- include: git.yml
+- include: logging.yml
+- include: dotfiles.yml
+- include: gnupg.yml    

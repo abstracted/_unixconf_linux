@@ -1,0 +1,7 @@
+
+[Unit]
+Description=SSH Socket
+
+[Socket]
+Accept=true
+ListenStream={{ firewall.ports.ssh }}

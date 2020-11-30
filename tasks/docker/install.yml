@@ -1,0 +1,45 @@
+---
+- name: "Create directory structure for: {{ item.dir }}"
+  file:
+    path: "{{ item.dir }}"
+    state: directory
+  become: yes
+
+- name: "Check if template exists: {{ playbook_dir}}/docker-templates/{{ item.name }}.env.j2"
+  stat: 
+    path: "{{ playbook_dir }}/docker-templates/{{ item.name }}.env.j2"
+  register: docker_env_file
+
+- name: "Write template: {{ playbook_dir}}/docker-templates/{{ item.name }}.env.j2"
+  template:
+    src: "{{ playbook_dir}}/docker-templates/{{ item.name }}.env.j2"
+    dest: "{{ item.dir }}/{{ item.name}}.env"
+    force: yes
+    follow: yes
+  become: yes
+  when: docker_env_file.stat.exists == True
+
+- name: "Check if template exists: {{ playbook_dir}}/docker-templates/{{ item.name }}.yml.j2"
+  stat: 
+    path: "{{ playbook_dir }}/docker-templates/{{ item.name }}.yml.j2"
+  register: docker_yml_file
+
+- name: "Write template: {{ playbook_dir}}/docker-templates/{{ item.name }}.yml.j2"
+  template:
+    src: "{{ playbook_dir }}/docker-templates/{{ item.name }}.yml.j2"
+    dest: "{{ item.dir }}/docker-compose.yml"
+    force: yes
+    follow: yes
+  become: yes
+  when: docker_yml_file.stat.exists == True
+
+- name: "{{ item.name }}: set docker container(s) state"
+  docker_compose:
+    project_name: "{{ item.name }}"
+    project_src: "{{ item.dir }}"
+    state: "{{ item.state | default('present') }}"
+    restarted: "{{ item.restarted | default('no') }}"
+    stopped: "{{ item.stopped | default('no') }}"
+  become: yes
+  when: item.state is defined and docker_yml_file.stat.exists == True
+

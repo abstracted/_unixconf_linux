@@ -1,0 +1,32 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# NETWORK
+
+hostname: "workstation"
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages:
+  - AUDIO_PRO
+  - GAMES
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# BOOT
+
+grub:
+  params:
+    - resume=UUID=58d5c547-4309-4987-b54e-ab0916cf8199
+
+filesystem_external_opts:
+  - "defaults"
+  - "nofail"
+  - "noatime"
+
+fstab:
+  - src: "/dev/disk/by-label/Storage"
+    path: "/mnt/Storage"
+    fstype: "ntfs"
+    state: "mounted"
+    opts: "{{ filesystem_external_opts }}"
+

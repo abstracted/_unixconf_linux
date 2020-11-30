@@ -1,0 +1,5 @@
+---
+os_base: archlinux
+
+packages_first:
+  - reflector

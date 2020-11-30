@@ -1,0 +1,7 @@
+{% if dhcpcd.static == True %}
+static ip_address={{ network_conf.ip_address }}/{{ network_conf.cidr }}	
+static routers={{ network_conf.default_gateway }}
+{% if network_conf.domain_name_servers is defined and network_conf.domain_name_servers | length > 0 %}
+static domain_name_servers={{ network_conf.domain_name_servers | join(' ') }}
+{% endif %}
+{% endif %}

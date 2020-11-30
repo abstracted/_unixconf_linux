@@ -1,0 +1,11 @@
+[Unit]
+Description=Mirrorlist Update Timer
+
+[Timer]
+Unit=mirrorlist-update.service
+OnCalendar=daily
+Persistent=True
+RandomizedDelaySec=1h
+
+[Install]
+WantedBy=timers.target

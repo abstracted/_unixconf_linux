@@ -1,0 +1,19 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# BOOT
+
+grub:
+  enabled: False
+
+plymouth:
+  enabled: False
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages:
+  - AUDIO
+  - DESKTOP_THEME
+  - DESKTOP_UTILS
+  - PRINTER
+  - SHELL_EXTRA

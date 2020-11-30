@@ -1,0 +1,12 @@
+---
+- include: add.yml
+  with_items: "{{ users }}"
+  loop_control:
+    loop_var: user
+  when: users is defined
+
+- include: remove.yml
+  with_items: "{{ users_remove }}"
+  loop_control:
+    loop_var: user
+  when: users_remove is defined

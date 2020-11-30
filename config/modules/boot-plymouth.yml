@@ -1,0 +1,21 @@
+---
+grub:
+  enabled: True
+  params:
+    - quiet
+    - vga=current
+    - splash
+    - loglevel=3
+    - rd.udev.log_priority=3
+    - vt.global_cursor_default=0
+
+mkinitcpio:
+  hooks:
+    - plymouth 
+
+plymouth:
+  enabled: True
+
+sysctl:
+  - name: kernel.printk
+    value: 3 3 3 3

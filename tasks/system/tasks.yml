@@ -1,0 +1,11 @@
+---
+- include: environment.yml
+- include: boot.yml
+- include: hardware.yml
+- include: i18n.yml
+- include: kernel.yml
+- include: networking.yml
+- include: mounts.yml
+# deprecated until they fix the cron module.
+# using template crontab.j2 for now
+# - include: cron.yml

@@ -1,0 +1,8 @@
+{% if network_manager.manage_dns == False %}
+[main]
+dns=none
+rc-manager=unmanaged 
+{% elif network_conf.domain_name_servers is defined and network_conf.domain_name_servers | length > 0 %}
+[global-dns-domain-*]
+servers={{ network_conf.domain_name_servers | join(',') }}
+{% endif %}

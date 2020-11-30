@@ -1,0 +1,33 @@
+---
+- name: "Install dotfiles for {{ user.name }}"
+  block:
+    - name: "Create dotfiles backup directory for {{ user.name }}"
+      file:
+        path: "/home/{{ user.name }}/.dotfiles_bak/{{ ansible_date_time.date }}"
+        recurse: yes
+        state: directory
+
+    - name: "Copy existing dotfiles directory for {{ user.name }} to dotfiles backup directory"
+      raw: "[ -d /home/{{ user.name }}/.dotfiles ] && cp -Rf /home/{{ user.name }}/.dotfiles /home/{{ user.name }}/.dotfiles_bak/{{ ansible_date_time.date }} || echo 0"
+
+    - name: "Clone {{ user.name }}'s dotfiles"
+      git:
+        repo: "{{ user.dotfiles }}"
+        dest: "/home/{{ user.name }}/.dotfiles"
+        recursive: no
+        accept_hostkey: yes
+        update: yes
+        force: yes
+
+    - name: "Copy existing dotfiles files for {{ user.name }} to dotfiles backup directory"
+      raw: "cd /home/{{ user.name }}/.dotfiles && for i in $(ls -A); do [ -e /home/{{ user.name }}/$i ] && cp -PRu /home/{{ user.name }}/$i /home/{{ user.name }}/.dotfiles_bak/{{ ansible_date_time.date }}/ || echo 0 ; done"
+
+    - name: "Remove existing dotfiles files from {{ user.name }}'s home directory"
+      raw: "cd /home/{{ user.name }}/.dotfiles && for i in $(ls -A); do [ -e /home/{{ user.name }}/$i ] && rm -rf /home/{{ user.name }}/$i || echo 0 ; done"
+
+    - name: "Link dotfiles in {{ user.name }}'s home directory"
+      raw: "cd /home/{{ user.name }}/.dotfiles && stow ."
+
+  become: yes
+  become_user: "{{ user.name }}"
+  when: user.dotfiles is defined and user_dotfiles_exists != True

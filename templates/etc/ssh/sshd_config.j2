@@ -1,0 +1,36 @@
+
+AuthorizedKeysFile  .ssh/authorized_keys
+PrintMotd no
+Subsystem	sftp	/usr/lib/ssh/sftp-server
+UsePAM yes
+
+{% if inventory_hostname == 'test' %}
+
+AllowUsers vagrant
+ChallengeResponseAuthentication no
+
+{% else %}
+
+Port {{ firewall.ports.ssh }}
+
+AddressFamily any
+AllowGroups sshusers
+ChallengeResponseAuthentication yes
+ClientAliveCountMax 2
+ClientAliveInterval 15
+LoginGraceTime 1m
+LogLevel VERBOSE
+PasswordAuthentication yes
+PermitEmptyPasswords no
+PermitRootLogin no
+PrintLastLog yes
+Protocol 2
+PubkeyAuthentication yes
+TCPKeepAlive yes
+X11Forwarding no
+
+Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+
+{% endif %}

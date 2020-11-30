@@ -1,0 +1,14 @@
+---
+- name: "Update the state {{ item.name }}'s systemd services"
+  systemd:
+    name: "{{ service.name }}"
+    enabled: "{{ service.enabled }}"
+    state: "{{ service.state }}"
+    scope: user
+  with_items: "{{ item.services }}"
+  loop_control:
+    loop_var: service
+  become: yes
+  become_user: "{{ item.name }}"
+  ignore_errors: yes
+  when: item.services is defined and item.services is defined

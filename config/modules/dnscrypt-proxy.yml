@@ -1,0 +1,81 @@
+---
+unbound:
+  port: 53
+  interface: 0.0.0.0
+
+dnscrypt:
+  port: 5353
+  # Currently using only DNSCRYPT protocal servers and Anonymized DNS
+  # https://dnscrypt.info/public-servers/
+  # https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Anonymized-DNS
+  # https://github.com/DNSCrypt/dnscrypt-resolvers/blob/master/v3/relays.md
+  servers:
+    - name: jp.tiar.app 
+      relays:
+        - anon-cs-usnv
+        - anon-cs-usnc
+        - anon-cs-usca
+    - name: cs-ustx
+      relays:
+        - anon-meganerd
+        - anon-ams-nl
+        - anon-sth-se
+    - name: id-gmail 
+      relays:
+        - anon-tiarap
+        - anon-skyfighter
+        - anon-ibksturm
+    - name: cs-usga 
+      relays:
+        - anon-meganerd
+        - anon-tiarap
+        - anon-sth-se
+    - name: dnscrypt.ca-2 
+      relays:
+        - anon-cs-ustx
+        - anon-cs-usor
+        - anon-cs-usga
+  
+network_conf:
+  domain_name_servers:
+    # Enable this to test a "unfiltered" netowrk
+    # - 174.138.21.128
+    # Enable these to test network dns settings
+    - 127.0.0.1
+    - ::1
+
+packages_first:
+  - dnscrypt-proxy
+  - unbound
+  - expat
+
+firewall:
+  ports:
+    dnscrypt: "{{ dnscrypt.port }}"
+    unbound: "{{ unbound.port }}"
+
+services:
+  - name: roothints.service
+    enabled: no
+    state: started
+  - name: dnscrypt-proxy.service
+    enabled: yes
+    state: restarted
+  - name: unbound.service
+    enabled: yes
+    state: restarted
+  - name: roothints.timer
+    enabled: yes
+    state: started
+
+cron:
+  jobs:
+    - name: refresh-dnscrypt-blacklist
+      user: root
+      state: present
+      minute: "0"
+      hour: "0"
+      day: "*"
+      weekday: "0"
+      month: "*"
+      job: cd /mnt/CAMERON/Server/dnscrypt-proxy/generate-domains-blocklists && ./refresh_dnscrypt_blacklist.sh

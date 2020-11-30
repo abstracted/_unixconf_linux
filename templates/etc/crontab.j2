@@ -1,0 +1,8 @@
+{% for item in cron.jobs %}
+{% if item.state == 'present' %}
+## {{ item.name }}
+{{ item.minute }}    {{ item.hour }}    {{ item.day }}    {{ item.month }}    {{ item.weekday }}    {{ item.user }}    {{ item.job }}
+
+{% endif %}
+{% endfor %}
+

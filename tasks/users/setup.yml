@@ -1,0 +1,17 @@
+---
+- name: "Setup the user account for {{ user.name }}"
+  become: yes
+  block:
+    - name: "Ensure user group exists for {{ user.name }}"
+      group:
+        name: "{{ user.name }}"
+        state: present
+
+    - name: "Ensure extra groups exist for {{ user.name }}"
+      group:
+        name: "{{ group }}"
+        state: present
+      with_items: "{{ user.groups }}"
+      loop_control:
+        loop_var: group
+      when: user.groups is defined

@@ -1,0 +1,15 @@
+---
+- name: "Create user socket directory for {{ user.name }}"
+  file:
+    path: "/run/user/{{ user_uid }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: 0700
+  become: yes
+
+- name: Start user systemd instance
+  service:
+    name: "user@{{ user_uid }}"
+    state: started
+  become: yes

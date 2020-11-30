@@ -1,0 +1,17 @@
+---
+os_base: manjaro
+
+grub:
+  params:
+    - quiet 
+    - apparmor=1 
+    - security=apparmor 
+    - udev.log_priority=3
+  theme: 
+    path: /usr/share/grub/themes/manjaro/theme.txt
+
+packages_blacklist:
+  - gdm-plymouth
+  - gnome-software
+  - mutter-x11-sc
+  - nautilus-typeahead

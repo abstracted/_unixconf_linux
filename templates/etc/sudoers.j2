@@ -1,0 +1,15 @@
+###
+## User privilege specification
+##
+root ALL=(ALL) NOPASSWD: ALL
+
+%wheel ALL=(ALL) ALL
+{% for entry in sudo.nopasswd %}
+{% for command in entry.commands %}
+{{ entry.name }} ALL=(ALL) NOPASSWD:{{ command }}*
+{% endfor %}
+{% endfor %}
+
+{% if inventory_hostname == 'test' %}
+vagrant ALL=(ALL) NOPASSWD: ALL
+{% endif %}

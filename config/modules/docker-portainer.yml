@@ -1,0 +1,18 @@
+firewall:
+  ports:
+    portainer_admin: "{{ docker.vars.portainer.ports.admin }}"
+
+docker:
+  containers:
+    - name: portainer
+      dir: /mnt/CAMERON/Server/portainer
+      state: present
+  
+  vars:
+    portainer:
+      volumes:
+        data: /mnt/CAMERON/Server/portainer/data
+      ports:
+        portainer: 8000
+        admin: 9000 
+

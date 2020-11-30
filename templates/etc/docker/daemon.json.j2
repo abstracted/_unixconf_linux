@@ -1,0 +1,6 @@
+{
+  "storage-driver": "{{ docker.storage_driver }}",
+  "bip": "{{ docker.network.default.gateway }}/{{ docker.network.default.cidr }}",
+  "iptables": false,
+  "dns": [ "{{ docker.network.default.dns | join('", "') }}" ]
+}

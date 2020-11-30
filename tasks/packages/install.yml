@@ -1,0 +1,141 @@
+---
+- name: Uninstall packages specified in packages_remove
+  command: "sudo pacman -Rns {{ item }}"
+  with_items: "{{ packages_remove }}"
+  become: yes
+  ignore_errors: yes
+  when: packages_remove | length > 0
+
+- name: Create a list of pacman packages
+  shell: 'pacman -Si {{ (packages_first + packages) | join(" ") }} | grep -E "^Name " | tr -d " " | cut -d: -f2 | uniq | grep -v "^$"'
+  register: pacman_packages
+  ignore_errors: yes
+  become: yes  
+
+- name: Create a list of pacman packages which are not already installed
+  shell: "pacman -Qi {{ pacman_packages.stdout_lines | join(' ') }} 2>&1 | grep 'was not found' | cut -d\"'\" -f2 | uniq | grep -v '^$'"
+  register: pacman_packages_needed
+  ignore_errors: yes
+  become: yes
+  when: pacman_packages.stdout_lines is defined and pacman_packages.stdout_lines | length > 0
+
+- name: Filter the pacman packages to omit packages listed in in packages_blacklist
+  shell: "echo {{ pacman_packages_needed.stdout_lines | join(' ') }} 2>&1 | sed -E 's/{{ packages_blacklist | join('|') }}//g' | sed -E 's/ /\\n/g' | grep -v '^$'"
+  register: pacman_packages_needed_filtered
+  ignore_errors: yes
+  become: yes
+  when: pacman_packages_needed.stdout_lines is defined and pacman_packages_needed.stdout_lines | length > 0
+
+- name: The following pacman packages will be installed
+  debug:
+    var: pacman_packages_needed_filtered.stdout_lines
+  when: pacman_packages_needed_filtered.stdout_lines is defined and pacman_packages_needed_filtered.stdout_lines | length > 0
+
+- name: Install pacman packages
+  yay:
+    update_cache: yes
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ pacman_packages_needed.stdout_lines }}"
+  when: pacman_packages_needed.stdout_lines is defined and pacman_packages_needed.stdout_lines | length > 0
+  become: yes
+  become_user: yay
+
+- name: Set pacman packages to empty array if undefined
+  set_fact:
+    pacman_packages: []
+  when: pacman_packages.stdout_lines is undefined or pacman_packages.stdout_lines | length == 0
+
+
+
+- name: Create a list of pacman groups
+  shell: 'pacman -Sg {{ (packages_first + packages) | join(" ") }} | cut -d" " -f1 | uniq | grep -v "^$"'
+  register: pacman_groups
+  ignore_errors: yes
+  become: yes
+
+- name: Create a list of pacman group packages
+  shell: 'pacman -Sg {{ pacman_groups.stdout_lines | join(" ") }} | cut -d" " -f2 | uniq | grep -v "^$"'
+  register: pacman_group_packages
+  ignore_errors: yes
+  become: yes
+  when: pacman_groups.stdout_lines is defined and pacman_groups.stdout_lines | length > 0
+
+- name: Create a list of pacman group packages which are not already installed
+  shell: "pacman -Qi {{ pacman_group_packages.stdout_lines | join(' ') }} 2>&1 | grep 'was not found' | cut -d\"'\" -f2 | uniq | grep -v '^$'"
+  register: pacman_group_packages_needed
+  ignore_errors: yes
+  become: yes
+  when: pacman_group_packages.stdout_lines is defined and pacman_group_packages.stdout_lines | length > 0
+
+- name: Filter the pacman group packages to omit packages listed in in packages_blacklist
+  shell: "echo {{ pacman_group_packages_needed.stdout_lines | join(' ') }} 2>&1 | sed -E 's/{{ packages_blacklist | join('|') }}//g' | sed -E 's/ /\\n/g' | grep -v '^$'"
+  register: pacman_group_packages_needed_filtered
+  ignore_errors: yes
+  become: yes
+  when: pacman_group_packages_needed.stdout_lines is defined and pacman_group_packages_needed.stdout_lines | length > 0
+
+- name: The following pacman group packages will be installed
+  debug:
+    var: pacman_group_packages_needed_filtered.stdout_lines
+  when: pacman_group_packages_needed_filtered.stdout_lines is defined and pacman_group_packages_needed_filtered.stdout_lines | length > 0
+
+- name: Install pacman group packages
+  yay:
+    update_cache: yes
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ pacman_group_packages_needed_filtered.stdout_lines }}"
+  when: pacman_group_packages_needed_filtered.stdout_lines is defined and pacman_group_packages_needed_filtered.stdout_lines | length > 0
+  become: yes
+  become_user: yay
+
+- name: Set pacman group packages to empty array if undefined
+  set_fact:
+    pacman_group_packages: []
+  when: pacman_groups.stdout_lines is undefined or pacman_groups.stdout_lines | length == 0
+
+
+
+- name: Create a list of aur packages
+  shell: "echo '{{ (packages_first + packages) | join('\n') }}' | sed -E 's/^{{ pacman_groups.stdout_lines | join('$|^') }}$//g' | sed -E 's/^{{ pacman_packages.stdout_lines | join('$|^') }}$//g' | grep -v '^$' | uniq | grep -v '^$'"
+  register: aur_packages
+  ignore_errors: yes
+
+- name: Create a list of aur packages which are not already installed
+  shell: "yay -Qi {{ aur_packages.stdout_lines | join(' ') }} 2>&1 | grep 'was not found' | cut -d\"'\" -f2 | uniq | grep -v '^$'"
+  register: aur_packages_needed
+  ignore_errors: yes
+  become: yes
+  become_user: yay
+  when: aur_packages.stdout_lines is defined and aur_packages.stdout_lines | length > 0
+
+- name: Filter the aur packages to omit packages listed in in packages_blacklist
+  shell: "echo {{ aur_packages_needed.stdout_lines | join(' ') }} 2>&1 | sed -E 's/{{ packages_blacklist | join('|') }}//g' | sed -E 's/ /\\n/g' | grep -v '^$'"
+  register: aur_packages_needed_filtered
+  ignore_errors: yes
+  become: yes
+  when: aur_packages_needed.stdout_lines is defined and aur_packages_needed.stdout_lines | length > 0
+
+
+- name: The following aur packages will be installed
+  debug:
+    var: aur_packages_needed_filtered.stdout_lines
+  when: aur_packages_needed_filtered.stdout_lines is defined and aur_packages_needed_filtered.stdout_lines | length > 0
+
+- name: Install aur packages
+  yay:
+    update_cache: yes
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ aur_packages_needed_filtered.stdout_lines }}"
+  when: aur_packages_needed_filtered.stdout_lines is defined and aur_packages_needed_filtered.stdout_lines | length > 0
+  become: yes
+  become_user: yay
+
+
+# - name: debug
+#   debug:
+#     var: aur_packages_needed
+# - name: throw error
+#   shell: ads;flkajdf;alsdkfj

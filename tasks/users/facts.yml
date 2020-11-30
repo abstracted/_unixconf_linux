@@ -1,0 +1,14 @@
+---
+- name: "Get {{ user.name }}'s UID"
+  command: "id -u {{ user.name }}"
+  register: uid_query
+
+- name: "Check if .dotfiles already exists in {{ user.name }}'s home directory"
+  stat:
+    path: "/home/{{ user.name }}/.dotfiles"
+  register: dotfiles_dir
+  become: yes
+
+- set_fact:
+    user_uid: "{{ uid_query.stdout }}"
+    user_dotfiles_exists: "{{ dotfiles_dir.stat.exists }}"

@@ -1,0 +1,15 @@
+---
+- name: Add or Remove cron jobs specifed in cron.jobs
+  cron:
+    backup: "{{ cron.backup }}"
+    cron_file: "{{ cron.cron_file }}"
+    name: "{{ item.name }}"
+    user: "{{ item.user }}"
+    state: "{{ item.state }}"
+    minute: "{{ item.minute }}"
+    hour: "{{ item.hour }}"
+    day: "{{ item.day }}"
+    weekday: "{{ item.weekday }}"
+    month: "{{ item.month }}"
+    job: "{{ item.job }}"
+  with_items: "{{ cron.jobs }}"

@@ -1,0 +1,14 @@
+
+---
+- hosts: "{{ variable_host | default('localhost') }}"
+  vars_files:
+    - vars/config.yml
+  gather_facts: false
+  handlers:
+    - include: includes/handlers.yml
+  pre_tasks:
+    - include: includes/install_dependencies.yml
+    - name: Gather facts
+      setup:
+  tasks:
+    - include: tasks/index.yml

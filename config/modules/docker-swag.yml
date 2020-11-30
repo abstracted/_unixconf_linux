@@ -1,0 +1,26 @@
+firewall:
+  ports:
+    http: "{{ docker.vars.swag.ports.http }}"
+    https: "{{ docker.vars.swag.ports.https }}"
+
+docker:
+  containers:
+    - name: swag
+      dir: /mnt/CAMERON/Server/swag
+      state: present
+
+  vars:
+    swag:  
+      env:
+        url: cameron.computer
+        email: csanders@protonmail.com
+        subdomains:
+          - wildcard
+        validation: dns
+        dnsplugin: cloudflare
+      volumes:
+        config: /mnt/CAMERON/Server/swag/config
+      ports:
+        http: 80
+        https: 443
+

@@ -1,0 +1,10 @@
+---
+- name: Setup logging functionality for {{ user.name }}"
+  block:
+    - name: "Create the user log directory {{ user.name }}"
+      file:
+        path: /home/{{ user.name }}/{{ user.log.dir }}
+        state: directory
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+      when: user.log.dir is defined

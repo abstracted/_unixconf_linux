@@ -1,0 +1,6 @@
+#!/bin/sh
+
+if [ "$2" = "up" ]; then
+    sleep 5
+    systemctl restart dnscrypt-proxy.service
+fi

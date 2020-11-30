@@ -1,0 +1,74 @@
+---
+- name: Setup mkinitcpio
+  block:
+    - name: Set mkinitcpio hook parameters
+      lineinfile:
+        dest: /etc/mkinitcpio.conf
+        regexp: "^HOOKS"
+        state: present
+        line: 'HOOKS=({{ mkinitcpio.hooks | join(" ") }})'
+      when: mkinitcpio.hooks is defined and mkinitcpio.hooks | length > 0
+      become: yes
+
+- name: Setup grub boot manager
+  block: 
+    - name: Install the grub theme package
+      yay:
+        name: "{{ grub.theme.package }}"
+      become: yes
+      become_user: yay
+      when: grub.theme.package is defined
+
+    - name: Set the grub theme in grub config
+      lineinfile:
+        dest: /etc/default/grub
+        regexp: "^GRUB_THEME"
+        state: present
+        line: 'GRUB_THEME="{{ grub.theme.path }}"'
+      when: grub.theme.path is defined
+
+    - name: Set grub boot parameters
+      lineinfile:
+        dest: /etc/default/grub
+        regexp: "^GRUB_CMDLINE_LINUX_DEFAULT"
+        state: present
+        line: 'GRUB_CMDLINE_LINUX_DEFAULT="{{ grub.params | join(" ") }}"'
+      when: grub.params is defined and grub.params | length > 0
+      become: yes
+
+    - name: notify rebuild grub
+      command: echo "rebuild grub"
+      when: grub.enabled == True
+      notify: rebuild grub
+
+  when: grub.enabled == True
+
+- name: Setup plymouth splash screen
+  block:
+    - name: Install plymouth
+      yay:
+        name: plymouth
+        state: present
+      become: yes
+      become_user: yay
+
+    - name: Install plymouth theme
+      yay:
+        name: "{{ plymouth.theme.package }}"
+        state: present
+      become: yes
+      become_user: yay
+      when: plymouth.theme.package is defined
+
+    - name: Check if plymouth theme has changed
+      command: "grep -Fxq 'Theme={{ plymouth.theme.name }}' /etc/plymouth/plymouthd.conf"
+      changed_when: False
+      check_mode: no
+      ignore_errors: yes
+      register: check_plymouth_theme
+
+    - name: Install plymouth theme and rebuild initrd image
+      command: "plymouth-set-default-theme -R {{ plymouth.theme.name }}"
+      become: yes
+      when: plymouth.theme.name is defined and check_plymouth_theme.rc != 0
+  when: plymouth.enabled == True

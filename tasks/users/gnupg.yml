@@ -1,0 +1,51 @@
+---
+- name: "Setup gnupg-agent for {{ user.name }}"
+  block:
+    - name: "Enable gpg-agent.socket for {{ user.name }}"
+      systemd:
+        name: gpg-agent.socket
+        scope: user
+        enabled: yes
+        state: started
+      become: yes
+      become_user: "{{ user.name }}"
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ user_uid }}"
+      when: user.gnupg.agent_socket == True
+      
+    - name: "Enable dirmngr.socket for {{ user.name }}"
+      systemd:
+        name: dirmngr.socket
+        scope: user
+        enabled: yes
+        state: started
+      become: yes
+      become_user: "{{ user.name }}"
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ user_uid }}"
+      when: user.gnupg.dirmngr_socket == True
+      
+    - name: "Enable gpg-agent-ssh.socket for {{ user.name }}"
+      systemd:
+        name: gpg-agent-ssh.socket
+        scope: user
+        enabled: yes
+        state: started
+      become: yes
+      become_user: "{{ user.name }}"
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ user_uid }}"
+      when: user.gnupg.agent_ssh_socket == True
+    
+    - name: "Enable gpg-agent-browser.socket for {{ user.name }}"
+      systemd:
+        name: gpg-agent-browser.socket
+        scope: user
+        enabled: yes
+        state: started
+      become: yes
+      become_user: "{{ user.name }}"
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ user_uid }}"
+      when: user.gnupg.agent_browser_socket == True
+  when: user.gnupg is defined

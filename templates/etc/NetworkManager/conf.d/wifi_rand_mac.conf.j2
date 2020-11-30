@@ -1,0 +1,9 @@
+[device-mac-randomization]
+# "yes" is already the default for scanning
+wifi.scan-rand-mac-address={{ network_manager.wifi.scan_rand_mac_address }}
+
+[connection-mac-randomization]
+# Randomize MAC for every ethernet connection
+ethernet.cloned-mac-address={{ network_manager.ethernet.cloned_rand_mac_address }}
+# Generate a random MAC for each WiFi and associate the two permanently.
+wifi.cloned-mac-address={{ network_manager.wifi.cloned_rand_mac_address }}

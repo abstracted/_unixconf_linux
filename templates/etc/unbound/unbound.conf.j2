@@ -1,0 +1,31 @@
+{% if unbound is defined and 
+      unbound.port is defined and
+      unbound.interface is defined and
+      network_conf is defined and
+      network_conf.default_gateway is defined and
+      network_conf.cidr is defined and
+      dnscrypt is defined and
+      dnscrypt.port is defined
+%}
+server:
+  interface: {{ unbound.interface }}@{{ unbound.port }}
+  access-control: {{ unbound.interface }}/8 allow     
+  access-control: {{ network_conf.default_gateway }}/{{ network_conf.cidr }} allow
+  private-address: {{ network_conf.default_gateway }}/{{ network_conf.cidr }}
+  do-not-query-localhost: no
+
+  verbosity: 1
+  use-syslog: yes
+  
+  hide-identity: yes
+  hide-version: yes
+  harden-glue: yes
+  harden-dnssec-stripped: yes
+  trust-anchor-file: trusted-key.key
+  root-hints: root.hints
+  
+forward-zone:
+  name: "."
+  forward-addr: 127.0.0.1@{{ dnscrypt.port }} 
+  forward-addr: ::1@{{ dnscrypt.port }} 
+{% endif %}

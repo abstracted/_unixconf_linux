@@ -1,0 +1,65 @@
+
+[options]
+{% if os_base == 'archlinux' or os_base == 'manjaro' %}
+Architecture = auto
+{% endif %}
+{% if os_base == 'archlinux_arm' %}
+Architecture = armv7h
+{% endif %}
+{% if os_base == 'manjaro_arm' %}
+Architecture = aarch64
+{% endif %}
+
+HoldPkg = pacman glibc
+HookDir = /etc/pacman.d/hooks/
+LocalFileSigLevel = Optional
+SigLevel = Required DatabaseOptional
+
+CheckSpace
+Color
+ILoveCandy
+TotalDownload
+VerbosePkgLists
+
+{% if os_base == 'archlinux' or os_base == 'manjaro' %}
+[core]
+Include = /etc/pacman.d/mirrorlist
+
+[extra]
+Include = /etc/pacman.d/mirrorlist
+
+[community]
+Include = /etc/pacman.d/mirrorlist
+
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+{% endif %}
+{% if os_base == 'archlinux_arm' %}
+[core]
+Include = /etc/pacman.d/mirrorlist
+
+[extra]
+Include = /etc/pacman.d/mirrorlist
+
+[community]
+Include = /etc/pacman.d/mirrorlist
+
+[alarm]
+Include = /etc/pacman.d/mirrorlist
+
+[aur]
+Include = /etc/pacman.d/mirrorlist
+{% endif %}
+{% if os_base == 'manjaro_arm' %}
+[core]
+#Include = /etc/pacman.d/mirrorlist
+Server = http://mirrors.dotsrc.org/manjaro-arm/stable/$arch/$repo
+
+[extra]
+#Include = /etc/pacman.d/mirrorlist
+Server = http://mirrors.dotsrc.org/manjaro-arm/stable/$arch/$repo
+
+[community]
+#Include = /etc/pacman.d/mirrorlist
+Server = http://mirrors.dotsrc.org/manjaro-arm/stable/$arch/$repo
+{% endif %}

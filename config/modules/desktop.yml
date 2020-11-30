@@ -1,0 +1,73 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages_first:
+  - wine-staging
+
+packages:
+  - AUDIO
+  - DESKTOP_XORG
+  - DESKTOP_THEME
+  - DESKTOP_UTILS
+  - DESKTOP_APPS
+  - DEVELOPMENT
+  - PRINTER
+  - PHONE
+  - SHELL_EXTRA
+  - VIRTUALIZATION
+  - WINE
+
+#- - - - - - - - - - - - - - - - - - - - - - -
+# KERNEL
+
+kernel:
+  modules:
+    - ahci
+    - kvm
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# LIMITS
+
+limits_conf:
+  - domain: "@realtime"
+    type: "-"
+    item: memlock
+    value: unlimited
+  - domain: "@realtime"
+    type: "-"
+    item: rtprio
+    value: 99
+  - domain: "@realtime"
+    type: soft
+    item: nofile
+    value: 99999
+  - domain: "@realtime"
+    type: hard
+    item: nofile
+    value: 99999
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SERVICES
+
+services:
+  - name: org.cups.cupsd.service
+    enabled: yes
+    state: started
+  - name: dhcpcd.service
+    enabled: no
+    state: stopped
+  - name: NetworkManager-dispatcher.service
+    enabled: yes
+    state: started
+  - name: NetworkManager.service
+    enabled: yes
+    state: started
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# BOOT
+
+grub:
+  enabled: True
+  params:
+    - quiet

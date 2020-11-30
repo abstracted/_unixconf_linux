@@ -1,0 +1,12 @@
+---
+- name: "Ensure {{ user.name }} is created and update if necessary"
+  user:
+    name: "{{ user.name }}"
+    group: "{{ user.name }}"
+    shell: "{{ user.shell }}"
+    password: "{{ user.name | password_hash('sha512') }}"
+    update_password: on_create
+    groups: "{{ user.groups }}"
+    append: yes
+  become: yes
+

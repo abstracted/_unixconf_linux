@@ -1,0 +1,7 @@
+---
+- include: tasks/packages/tasks.yml
+- include: tasks/system/tasks.yml
+- include: tasks/users/tasks.yml
+- include: tasks/files/tasks.yml
+- include: tasks/services/tasks.yml
+- include: tasks/docker/tasks.yml

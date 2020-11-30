@@ -1,0 +1,10 @@
+
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = pacman-mirrorlist
+
+[Action]
+Description = Updating mirror list...
+When = PostTransaction
+Exec = /usr/bin/REFLECTOR_UPDATE

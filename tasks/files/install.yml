@@ -1,0 +1,54 @@
+---
+- name: Unlock files specified in files.locked
+  file:
+    path: "{{ item }}"
+    attr: -i
+  with_items: "{{ files.locked }}"
+
+- name: Ensure directory structure exists for template files
+  file:
+    path: '/{{ item.path }}'
+    state: directory
+  become: yes
+  with_filetree: '../templates/'
+  when: item.state == 'directory'
+
+- name: Write system files from ./templates directory
+  template:
+    src: '{{ item.src }}'
+    dest: '/{{ item.path | regex_replace("\.j2","") }}'
+    backup: no
+  become: yes
+  with_filetree: '../templates/'
+  when: item.state == 'file'
+  
+- name: Set executable bit on scripts from /usr/bin templates directory
+  file:
+    path: '/usr/bin/{{ item.path | basename | regex_replace("\.j2","") }}'
+    state: touch
+    mode: u+x,g+x,o+x
+  become: yes
+  with_filetree: '../templates/usr/bin'
+  when: item.state == 'file'
+
+- name: Ensure directory structure exists for files
+  file:
+    path: '/{{ item.path }}'
+    state: directory
+  become: yes
+  with_filetree: '../files/'
+  when: item.state == 'directory'
+
+- name: Copy system files from ./files directory
+  copy:
+    src: '{{ item.src }}'
+    dest: '/{{ item.path }}'
+  become: yes
+  with_filetree: '../files/'
+  when: item.state == 'file'
+
+- name: Lock files specified in files.locked
+  file:
+    path: "{{ item }}"
+    attr: +i
+  with_items: "{{ files.locked }}"

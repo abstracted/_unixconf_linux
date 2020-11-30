@@ -1,0 +1,20 @@
+---
+- name: Setup filesystem mounts for /etc/fstab
+  block:
+
+    - name: "Create directories for filesystem mounts"
+      file:
+        path: "{{ item.path }}"
+        state: directory
+      become: yes
+      with_items: "{{ fstab }}"
+
+    - name: "Mount items defined in filesystems"
+      mount:
+        path: "{{ item.path }}"
+        src: "{{ item.src }}"
+        fstype: "{{ item.fstype }}"
+        state: "{{ item.state }}"
+        opts: "{{ item.opts | join(',') }}"
+      become: yes
+      with_items: "{{ fstab }}"

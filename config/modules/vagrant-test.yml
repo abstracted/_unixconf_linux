@@ -1,0 +1,3 @@
+---
+remote_user: vagrant
+variable_host: test

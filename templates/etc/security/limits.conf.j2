@@ -1,0 +1,4 @@
+#
+{% for limit in limits_conf %}
+{{ limit.domain }}  {{ limit.type }} {{ limit.item }}   {{ limit.value }}
+{% endfor %}

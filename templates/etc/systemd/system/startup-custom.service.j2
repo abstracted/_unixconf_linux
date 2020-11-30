@@ -1,0 +1,8 @@
+[Unit]
+Description=Commands to run while booting the system
+
+[Service]
+ExecStart=/usr/bin/STARTUP_COMMANDS
+
+[Install]
+WantedBy=multi-user.target

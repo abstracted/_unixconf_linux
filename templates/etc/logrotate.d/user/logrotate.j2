@@ -1,0 +1,10 @@
+
+{% for user in users %}
+
+/home/{{ user.name }}/log/*.log {
+    missingok
+    noolddir
+    rotate 8
+}
+
+{% endfor %}

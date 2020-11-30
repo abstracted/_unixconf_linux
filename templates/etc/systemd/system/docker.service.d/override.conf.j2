@@ -1,0 +1,4 @@
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd --data-root {{ docker.storage_root | default('/var/lib/docker') }} -H fd://
+   

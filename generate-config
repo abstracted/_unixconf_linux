@@ -1,0 +1,427 @@
+#!/usr/bin/env node
+
+const chalk = require('chalk')
+const fs = require('fs')
+const program = require('commander')
+const system = require('child_process')
+const yaml = require('js-yaml')
+const deepequal = require('deep-equal')
+const deepmerge = require('deepmerge')
+
+const STORE_PATH = 'store'
+const CONFIG_PATH = 'config'
+const GLOBAL_PATH = `${CONFIG_PATH}/global`
+const MODULE_PATH = `${CONFIG_PATH}/modules`
+const SYSTEM_PATH = `${CONFIG_PATH}/systems`
+const PLAYBOOK_CONFIG_PATH = 'vars'
+
+// GLOBAL UTILS
+function log (color, message, ...messages) {
+  console.log(chalk[color](message + messages.join(' ')))
+}
+
+function throwError (message, error) {
+  if (message) log('yellow', message)
+  if (error) log('red', error)
+  process.exit()
+}
+
+function makeDir (path) {
+  try {
+    fs.statSync(path)
+  } catch (error) {
+    fs.mkdirSync(path, { recursive: true })
+    log('gray', `Creating directory at ${path}`)
+  }
+}
+
+function statPath (path) {
+  try {
+    fs.statSync(path)
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
+function lsPath (path) {
+  try {
+    const ls = fs.readdirSync(`${__dirname}/${path}`)
+    return ls
+  } catch (error) {
+    return []
+  }
+}
+
+function getYaml (path) {
+  const fullpath = `${__dirname}/${path}`
+  const pathExists = statPath(fullpath)
+  if (pathExists) {
+    const json = yaml.safeLoad(fs.readFileSync(fullpath, 'utf8'))
+    return json
+  } else {
+    return {}
+  }
+}
+
+function writeYaml (json, path, filename) {
+  const dir = `${__dirname}/${path}/`
+  const fullpath = dir + filename
+  const pathExists = statPath(fullpath)
+  if (pathExists !== true) {
+    makeDir(dir)
+    execSync(`touch ${fullpath}`)
+  }
+  log('gray', `Writing yaml file to ${fullpath}`)
+  fs.writeFileSync(fullpath, yaml.safeDump(json))
+}
+
+/**
+* Function to issue bash commands, returns the stdout.
+* @param command
+* @returns {string} stdout
+*/
+function execSync (command) {
+  try {
+    return system.execSync(command).toString().replace('node_modules', '').trim()
+  } catch (error) {
+    return ''
+  }
+}
+
+function arrayCombineMerge (target, source, options) {
+  const destination = target.slice()
+  source.forEach((item, index) => {
+    if (typeof destination[index] === 'undefined') {
+      destination[index] = options.cloneUnlessOtherwiseSpecified(item, options)
+    } else if (options.isMergeableObject(item)) {
+      const isMergableObjectEqual = deepequal(destination[index], item)
+      if (isMergableObjectEqual !== true) {
+        destination.push(item)
+      }
+    } else if (target.indexOf(item) === -1) {
+      destination.push(item)
+    }
+  })
+  return destination
+}
+// CONFIG FUNCTIONS
+function getBaseConfig () {
+  try {
+    const baseConfig = getYaml(`${GLOBAL_PATH}/base.yml`)
+    return baseConfig
+  } catch (error) {
+    throwError(`Global system file is missing or corrupted at ./${GLOBAL_PATH}/base.yml`, error)
+  }
+}
+
+function getPackagesConfig () {
+  try {
+    const packagesConfig = getYaml(`${GLOBAL_PATH}/packages.yml`)
+    return packagesConfig
+  } catch (error) {
+    throwError(`Global packages file is missing or corrupted at ./${GLOBAL_PATH}/packages.yml`, error)
+  }
+}
+
+function getModulesConfig (modules) {
+  if (modules) {
+    try {
+      const moduleConfigs = modules.split(',').map(module => getYaml(`${MODULE_PATH}/${module}.yml`))
+      const moduleConfigsMerged = deepmerge.all(moduleConfigs)
+      return moduleConfigsMerged
+    } catch (error) {
+      throwError(`One or more specified module files do not exist in ./${MODULE_PATH}`, error)
+    }
+  } else {
+    return {}
+  }
+}
+
+function getSystemConfig (system) {
+  if (system) {
+    try {
+      const systemConfig = getYaml(`${SYSTEM_PATH}/${system}.yml`)
+      return systemConfig
+    } catch (error) {
+      throwError(`One or more specified system files do not exist in ./${SYSTEM_PATH}`, error)
+    }
+  } else {
+    return {}
+  }
+}
+
+function getPackagesList (packages, packageCategoryList) {
+  try {
+    if (Array.isArray(packageCategoryList) === true) {
+      return packageCategoryList.map(category => {
+        const p = packages[category]
+        return p || []
+      }).flat(Infinity)
+    } else {
+      return []
+    }
+  } catch (error) {
+    throwError('Package specifications are broken somehow, please check your package categories and package list', error)
+  }
+}
+
+function getConfig (options) {
+  try {
+    const { system, modules } = options
+
+    const packagesConfig = getPackagesConfig()
+    const baseConfig = getBaseConfig()
+    const modulesConfig = getModulesConfig(modules)
+    const systemConfig = getSystemConfig(system)
+
+    const configWithoutPackages = deepmerge.all([baseConfig, modulesConfig, systemConfig, packagesConfig], { arrayMerge: arrayCombineMerge })
+    const { packages: packageCategoryList } = configWithoutPackages
+    const packagesList = getPackagesList(packagesConfig, packageCategoryList)
+    const config = { ...configWithoutPackages, packages: packagesList }
+    return config
+  } catch (error) {
+    throwError('There was a problem constructing the configuration object', error)
+  }
+}
+
+function setConfig (options) {
+  const { system, config } = options
+
+
+  const configPrevious = getYaml(`${PLAYBOOK_CONFIG_PATH}/config.yml`)
+  const configEqual = deepequal(configPrevious, config)
+  if (configEqual !== true) {
+    writeYaml(config, PLAYBOOK_CONFIG_PATH, 'config.yml')
+  }
+}
+
+// PROGRAM BODY
+async function main () {
+  program
+    .option(`-m, --modules <modules>', 'Comma separated list of modules to add to the sytem configuration. Module configs are stored in ./${MODULE_PATH}`)
+    .option(`-s, --system <system>', 'Specific system to use. System configs are stored in ./${SYSTEM_PATH}`)
+    .parse(process.argv)
+
+  const { modules, system } = program
+  const config = getConfig({ modules, system })
+  setConfig({ system, config })
+}
+
+try {
+  main()
+} catch (error) {
+  throwError('', error)
+}
+
+// RUN PLAYBOOK FUNCTIONALITY.
+// usage: runPlaybook('sudo ansible-playbook playbook.yml')
+
+// /**
+// * Function to issue bash commands, returns the stdout.
+// * @param command
+// * @returns {string} stdout
+// */
+// async function runPlaybook (command) {
+//   return new Promise((resolve, reject) => {
+//     const child = system.exec(command)
+//     let stdout = ''
+
+//     child.stdout.on('data', data => {
+//       let color = 'white'
+//       if (data.match(/^ok/gm)) color = 'green'
+//       if (data.match(/^changed/gm)) color = 'yellow'
+//       if (data.match(/^skipping/gm)) color = 'gray'
+//       if (data.match(/\.\.\.ignoring/)) color = 'magenta'
+//       if (data.match(/error/gmi)) color = 'red'
+//       log(color, data)
+//       stdout += '\n' + data
+//     })
+
+//     child.stderr.on('data', data => {
+//       log('red', data)
+//     })
+
+//     child.on('error', error => {
+//       log('red', error)
+//       reject(error)
+//     })
+
+//     child.on('close', code => {
+//       resolve(stdout)
+//     })
+//   })
+// }
+
+// CONFIG DIFFING FUNCTIONALITY: Was removed to reduce the complexity of the script
+
+// function getStoreConfigs (system) {
+//   const storePathExists = statPath(STORE_PATH)
+//   if (storePathExists) {
+//     const storeList = lsPath(`${STORE_PATH}/${system}`)
+//     if (storeList) {
+//       const storeListNumbers = storeList.map(file => Number(file.replace(/\.yml$/, '')))
+//       const storeConfigs = storeListNumbers.sort().map(store => getYaml(`${STORE_PATH}/${system}/${store}.yml`))
+//       return storeConfigs
+//     }
+//   }
+//   return []
+// }
+
+// function getRemovedUsers (system) {
+//   const storeConfigs = getStoreConfigs(system)
+//   const configNew = storeConfigs[storeConfigs.length - 1]
+//   const usersNew = configNew.users
+
+//   if (storeConfigs.length === 1) {
+//     // can't be any changes as there's only one item
+//     return []
+//   } else if (Array.isArray(usersNew)) {
+//     // find the items deleted in usersNew
+//     const removedUsers = storeConfigs.reduce((acc, cur) => {
+//       const { users: usersOld } = cur
+
+//       if (usersOld && usersNew) {
+//         const removed = usersOld.filter(
+//           usr => usersNew.filter(
+//             u => u.name === usr.name
+//           ).length < 1
+//         )
+//         return [...acc, ...removed]
+//       } else {
+//         return acc
+//       }
+//     }, []).sort().filter((usr, idx, arr) => {
+//       return usr !== arr[usr - 1]
+//     })
+//     return removedUsers.map(({ name }) => name)
+//   } else {
+//     const hasNoUsers = storeConfigs.filter(({ users }) => Array.isArray(users) !== true).length === storeConfigs.length
+//     if (hasNoUsers !== true) {
+//       // All users were deleted
+//       const storeConfigsOld = storeConfigs.filter(({ users }) => Array.isArray(users) === true)
+//       const storeConfigsMerge = deepmerge.all(storeConfigsOld, { arrayMerge: arrayCombineMerge })
+//       const removedUsers = storeConfigsMerge.users.map(({ name }) => name)
+//       return removedUsers
+//     } else {
+//       // There were never any users
+//       return []
+//     }
+//   }
+// }
+
+// function getRemovedServices (system) {
+//   const storeConfigs = getStoreConfigs(system)
+//   const configNew = storeConfigs[storeConfigs.length - 1]
+//   const servicesNew = configNew.services
+
+//   if (storeConfigs.length === 1) {
+//     // can't be any changes as there's only one item
+//     return []
+//   } else if (Array.isArray(servicesNew)) {
+//     // find the items deleted in servicesNew
+//     const removedServices = storeConfigs.reduce((acc, cur) => {
+//       const { services: servicesOld } = cur
+
+//       if (servicesOld && servicesNew) {
+//         const removed = servicesOld.filter(
+//           srv => servicesNew.filter(
+//             s => s.name === srv.name
+//           ).length < 1
+//         )
+//         return [...acc, ...removed]
+//       } else {
+//         return acc
+//       }
+//     }, []).sort().filter((srv, idx, arr) => {
+//       return srv !== arr[srv - 1]
+//     })
+//     return removedServices.map(({ name }) => name)
+//   } else {
+//     const hasNoServices = storeConfigs.filter(({ services }) => Array.isArray(services) !== true).length === storeConfigs.length
+//     if (hasNoServices !== true) {
+//       // All services were deleted
+//       const storeConfigsOld = storeConfigs.filter(({ services }) => Array.isArray(services) === true)
+//       const storeConfigsMerge = deepmerge.all(storeConfigsOld, { arrayMerge: arrayCombineMerge })
+//       const removedServices = storeConfigsMerge.services.map(({ name }) => name)
+//       return removedServices
+//     } else {
+//       // There were never any services
+//       return []
+//     }
+//   }
+// }
+
+// function getRemovedPackages (system) {
+//   const storeConfigs = getStoreConfigs(system)
+//   const configNew = storeConfigs[storeConfigs.length - 1]
+//   const packagesNew = configNew.packages
+
+//   if (storeConfigs.length === 1) {
+//     // can't be any changes as there's only one item
+//     return []
+//   } else if (Array.isArray(packagesNew)) {
+//     // find the items deleted in packagesNew
+//     const removedPackages = storeConfigs.reduce((acc, cur) => {
+//       const { packages: packagesOld } = cur
+//       const removed = packagesOld.filter(
+//         pkg => packagesNew.filter(
+//           p => p === pkg
+//         ).length < 1
+//       )
+
+//       return [...acc, ...removed]
+//     }, []).sort().filter((pkg, idx, arr) => {
+//       return pkg !== arr[idx - 1]
+//     })
+//     return removedPackages
+//   } else {
+//     const hasNoPackages = storeConfigs.filter(({ packages }) => Array.isArray(packages) !== true).length === storeConfigs.length
+//     if (hasNoPackages !== true) {
+//       // All packages were deleted
+//       const storeConfigsOld = storeConfigs.filter(({ packages }) => Array.isArray(packages) === true)
+//       const storeConfigsMerge = deepmerge.all(storeConfigsOld, { arrayMerge: arrayCombineMerge })
+//       const removedPackages = storeConfigsMerge.packages.map(pkg => pkg)
+//       return removedPackages
+//     } else {
+//       // There were never any packages
+//       return []
+//     }
+//   }
+// }
+
+// function getConfigDiff (system) {
+//   const storeConfigs = getStoreConfigs(system)
+//   const configDiff = {
+//     users_remove: storeConfigs.length ? getRemovedUsers(system) : [],
+//     services_remove: storeConfigs.length ? getRemovedServices(system) : [],
+//     packages_remove: storeConfigs.length ? getRemovedPackages(system) : []
+//   }
+//   return configDiff
+// }
+
+// function setConfigDiff(options) {
+//   const { system, config } = options
+//   const storeConfigs = getStoreConfigs(system)
+//   function writeStoreYaml () {
+//     writeYaml(config, `${STORE_PATH}/${system}`, `${Date.now()}.yml`)
+//   }
+
+//   if (storeConfigs.length) {
+//     const storeConfigLast = storeConfigs[storeConfigs.length - 1]
+//     const storeEqual = deepequal(config, storeConfigLast)
+//     if (storeEqual !== true) {
+//       writeStoreYaml()
+//     }
+//   } else {
+//     writeStoreYaml()
+//   } 
+
+//   The second section writes to the playbook config file vars/config.yml
+//   const configDiff = getConfigDiff(system)
+//   const configNext = deepmerge(config, configDiff)
+//   const configEqual = deepequal(configPrevious, configNext)
+//   if (configEqual !== true) {
+//     writeYaml(configNext, PLAYBOOK_CONFIG_PATH, 'config.yml')
+//   }
+// }

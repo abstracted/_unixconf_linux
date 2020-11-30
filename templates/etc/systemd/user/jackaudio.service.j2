@@ -1,0 +1,18 @@
+[Unit]
+Description=Start and configure the jack audio connection kit
+After=pulseaudio.service
+
+[Service]
+Type=simple
+Environment="DISPLAY=:0"
+
+ExecStart=/usr/bin/JACK_START
+
+ExecStop=/usr/bin/jack_control exit
+ExecStopPost=/usr/bin/a2j_control exit
+
+SuccessExitStatus=0
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target  

@@ -1,0 +1,32 @@
+---
+- name: Set the timezone
+  timezone:
+    name: "{{ i18n.timezone }}"
+    hwclock: UTC
+  when: i18n.timezone is defined
+
+- name: Use localtime time standard
+  command: timedatectl set-local-rtc 0
+  when: i18n.localtime is defined
+
+- name: Ensure locale is present in locale.conf
+  lineinfile:
+    path: /etc/locale.conf
+    line: "{{ item }}={{ i18n.locale }}"
+    state: present
+    create: yes
+  with_items:
+    - LANG
+    - LC_TIME
+  when: i18n.locale is defined
+  become: yes
+
+- name: Set the keymap
+  command: "localectl set-keymap --no-convert {{ i18n.keymap }}"
+  when: i18n.keymap is defined
+
+- name: Generate the system locale
+  locale_gen:
+    name: "{{ i18n.locale }}"
+    state: present
+  when: i18n.locale is defined

@@ -1,0 +1,7 @@
+---
+- include: setup.yml
+  when: docker.enabled is defined and docker.enabled == True   
+
+- include: install.yml
+  with_items: "{{ docker.containers }}"
+  when: docker.enabled is defined and docker.enabled == True and docker.containers is defined and docker.containers | length > 0

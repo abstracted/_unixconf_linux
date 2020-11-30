@@ -1,0 +1,34 @@
+---
+- name: "Set {{ user.name }}'s git name and email"
+  block:
+    - name: "Set the git config for {{ user.name }}'s Fullname"
+      command: "git config --global user.name {{ user.fullname }}"
+      args:
+        chdir: "/home/{{ user.name }}" 
+      become: yes
+      become_user: "{{ user.name }}"
+      when: user.fullname is defined
+
+    - name: "Set the git config for {{ user.name }}'s Email"
+      command: "git config --global user.email {{ user.email }}"
+      args:
+        chdir: "/home/{{ user.name }}"
+      become: yes
+      become_user: "{{ user.name }}"
+      when: user.email is defined
+
+    - name: "Set root's gitconfig name if {{ user.name }} is tag: main"
+      command: "git config --global user.name {{ user.fullname }}"
+      args:
+        chdir: "/home/{{ user.name }}" 
+      become: yes
+      become_user: root
+      when: user.fullname is defined and user.tag == 'main'
+
+    - name: "Set root's gitconfig email if {{ user.name }} is tag: main"
+      command: "git config --global user.email {{ user.email }}"
+      args:
+        chdir: "/home/{{ user.name }}"
+      become: yes
+      become_user: root
+      when: user.email is defined and user.tag == 'main'
