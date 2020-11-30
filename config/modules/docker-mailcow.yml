@@ -1,0 +1,36 @@
+firewall:
+  ports:
+    mailcow_smtp: "{{ docker.vars.mailcow.ports.smtp }}"
+    mailcow_smtps: "{{ docker.vars.mailcow.ports.smtps }}"
+    mailcow_submission: "{{ docker.vars.mailcow.ports.submission }}"
+    mailcow_imap: "{{ docker.vars.mailcow.ports.imap }}"
+    mailcow_imap2: "{{ docker.vars.mailcow.ports.imap2 }}"
+    mailcow_pop3: "{{ docker.vars.mailcow.ports.pop3 }}"
+    mailcow_pop3s: "{{ docker.vars.mailcow.ports.pop3s }}"
+    mailcow_sieve: "{{ docker.vars.mailcow.ports.sieve }}"
+    mailcow_http: "{{ docker.vars.mailcow.ports.http }}"
+    mailcow_https: "{{ docker.vars.mailcow.ports.https }}"
+
+
+docker:
+  containers:
+    - name: mailcow
+      dir: /mnt/CAMERON/Server/mailcow
+      state: present
+
+  vars:
+    mailcow:
+      env: []
+      volumes: []
+      ports:
+        smtp: 25 	
+        smtps: 465 	
+        submission: 587 	
+        imap: 143 	
+        imap2: 993 	
+        pop3: 110 	
+        pop3s: 995 	
+        sieve: 4190 	
+        http: 20080
+        https: 20443
+
