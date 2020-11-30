@@ -4,7 +4,7 @@ firewall:
     mailcow_smtps: "{{ docker.vars.mailcow.ports.smtps }}"
     mailcow_submission: "{{ docker.vars.mailcow.ports.submission }}"
     mailcow_imap: "{{ docker.vars.mailcow.ports.imap }}"
-    mailcow_imap2: "{{ docker.vars.mailcow.ports.imap2 }}"
+    mailcow_iamps: "{{ docker.vars.mailcow.ports.imaps }}"
     mailcow_pop3: "{{ docker.vars.mailcow.ports.pop3 }}"
     mailcow_pop3s: "{{ docker.vars.mailcow.ports.pop3s }}"
     mailcow_sieve: "{{ docker.vars.mailcow.ports.sieve }}"
@@ -27,7 +27,7 @@ docker:
         smtps: 465 	
         submission: 587 	
         imap: 143 	
-        imap2: 993 	
+        imaps: 993 	
         pop3: 110 	
         pop3s: 995 	
         sieve: 4190 	
