@@ -5,6 +5,20 @@
     state: directory
   become: yes
 
+- name: "Check if template exists: {{ playbook_dir}}/docker-templates/{{ item.name }}.conf.j2"
+  stat: 
+    path: "{{ playbook_dir }}/docker-templates/{{ item.name }}.conf.j2"
+  register: docker_conf_file
+
+- name: "Write template: {{ playbook_dir}}/docker-templates/{{ item.name }}.conf.j2"
+  template:
+    src: "{{ playbook_dir}}/docker-templates/{{ item.name }}.conf.j2"
+    dest: "{{ item.dir }}/{{ item.name}}.conf"
+    force: yes
+    follow: yes
+  become: yes
+  when: docker_conf_file.stat.exists == True
+
 - name: "Check if template exists: {{ playbook_dir}}/docker-templates/{{ item.name }}.env.j2"
   stat: 
     path: "{{ playbook_dir }}/docker-templates/{{ item.name }}.env.j2"
