@@ -8,7 +8,6 @@ _CORE:
   - git
   - gnupg
   - make
-# - man
   - man-db
   - openssh
   - stow
@@ -142,6 +141,10 @@ SHELL_EXTRA:
   - toilet-fonts
   - unimatrix-git
 
+PACKAGE_MANAGERS:
+  - snapd
+  - flatpak
+
 DESKTOP_XORG:
   - xorg
 
@@ -180,6 +183,31 @@ DESKTOP_GNOME:
   - gdm
   # gnome
   - gnome
+
+DESKTOP_KDE:
+  # extras
+  - plasma-wayland-session
+  - kdeconnect
+  - kwin-lowlatency
+  # display manager
+  - sddm-kcm
+  # plasma
+  - plasma
+
+DESKTOP_XFCE:
+  # extras
+  - xscreensaver
+  - mugshot
+  - lightdm-gtk-greeter-settings
+  - fluxgui
+  - gvfs
+  - gvfs-smb
+  # display manager
+  - lightdm
+  - lightdm-gtk-greeter
+  # xfce
+  - xfce4
+  - xfce4-goodies
 
 DESKTOP_APPS:
 # audio
@@ -257,6 +285,39 @@ DESKTOP_GTK_APPS:
   - thunderbird # gtk
   - simple-scan # gtk
 
+DESKTOP_QT_APPS:
+  # files
+  - dolphin
+  - dolphin-plugins
+  - ark
+  # system utils
+  - kcron
+  - qdirstat
+  - ksystemlog
+  - kfind  
+  # development
+  - kompare
+  - kate
+  - yakuake
+  - konsole
+  # creative
+  - kwave
+  - kolourpaint
+  - kdenlive
+  # network_files
+  - kget
+  - qbittorrent
+  # office
+  - kcalc
+  - kmail
+  - kalarm
+  - korganizer
+  - okular
+  - print-manager
+  # media
+  - gwenview
+  - juk
+
 WINE:
   - wine-staging
   - winetricks
@@ -270,7 +331,7 @@ GAMES:
   - steam
   - steam-fonts
 # lutris
-  - lutris-git
+  - lutris
   - alsa-lib
   - alsa-plugins
   - giflib
