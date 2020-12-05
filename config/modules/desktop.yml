@@ -52,7 +52,7 @@ limits_conf:
 # SERVICES
 
 services:
-  - name: org.cups.cupsd.service
+  - name: cups.service
     enabled: yes
     state: started
   - name: dhcpcd.service

@@ -16,7 +16,7 @@ packages:
 
 grub:
   params:
-    - resume=UUID=f629bf7b-cb2d-45a0-a870-e14f32a3a620
+    - resume=UUID=b1cb35b1-bdf1-4ce1-b0b9-2d43777a58aa
 
 filesystem_external_opts:
   - "defaults"
