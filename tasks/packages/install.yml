@@ -6,6 +6,13 @@
   ignore_errors: yes
   when: packages_remove | length > 0
 
+- name: Upgrade the system
+  pacman:
+    update_cache: yes
+    upgrade: yes
+    state: present
+  become: yes
+
 - name: Create a list of pacman packages
   shell: 'pacman -Si {{ (packages_first + packages) | join(" ") }} | grep -E "^Name " | tr -d " " | cut -d: -f2 | uniq | grep -v "^$"'
   register: pacman_packages

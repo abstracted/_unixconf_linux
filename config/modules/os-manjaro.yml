@@ -11,6 +11,9 @@ grub:
     path: /usr/share/grub/themes/manjaro/theme.txt
 
 packages_blacklist:
+  - gnome-shell-extension-arc-menu
+  - gvfs-gphoto2
+  - gvfs
   - gdm-plymouth
   - gnome-software
   - mutter-x11-sc
