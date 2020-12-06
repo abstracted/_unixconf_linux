@@ -53,7 +53,7 @@
         state: present
       when: gpu_nvidia.rc == 0
       become: yes
-  when: os_base == 'archlinux'
+  when: os_base == 'archlinux' or os_base == 'ubuntu'
 
 - name: Install GPU drviers
   block:
@@ -77,14 +77,14 @@
   block:
     - name: Install Intel Microcode
       pacman:
-        name: intel-ucode
+        name: "{{ cpu.microcode.intel }}"
         state: present
       when: cpu_intel.rc == 0
       become: yes
     
     - name: Install AMD Microcode
       pacman:
-        name: amd-ucode
+        name: "{{ cpu.microcode.amd }}"
         state: present
       when: cpu_amd.rc == 0
       become: yes

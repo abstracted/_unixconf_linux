@@ -1,0 +1,108 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SYSTEM
+
+os_base: ubuntu
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SUDOERS
+
+sudo:
+  nopasswd:
+    - name: "%wheel"
+      commands:
+        - /usr/bin/dpkg
+        - /usr/bin/apt
+        - /usr/bin/add-apt-repository
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# I18N & TIME
+
+timesyncd:
+  ntp_servers:
+    - 0.ubuntu.pool.ntp.org 
+    - 1.ubuntu.pool.ntp.org 
+    - 2.ubuntu.pool.ntp.org 
+    - 3.ubuntu.pool.ntp.org
+  ntp_servers_fallback:
+    - 0.pool.ntp.org 
+    - 1.pool.ntp.org 
+    - 0.fr.pool.ntp.org
+  root_distance_max_sec: 5
+  poll_interval_min_sec: 32
+  poll_interval_max_sec: 2048
+
+
+#- - - - - - - - - - - - - - - - - - - - - - -
+# KERNEL
+
+kernel_version: 5.8
+kernel_subversion: 0-31
+kernel_type: generic
+
+kernel:
+  packages:
+    - linux-image-{{ kernel_version }}-{{ kernel_subversion }}-{{ kernel_type }}
+    - linux-headers-{{ kernel_version }}-{{ kernel_subversion }}-{{ kernel_type }}
+    - linux-tools-{{ kernel_version }}-{{ kernel_subversion }}-{{ kernel_type }}
+  modules:
+    - usb_storage
+    - usbhid
+    - xhci_pci
+  sysctl:
+    - name: "fs.inotify.max_user_watches"
+      value: 524288
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# VIDEO DRIVERS
+
+video:
+  drivers:
+    intel:
+      - xserver-xorg-video-intel
+      - libgl1-mesa-dri:i386
+      - mesa-vulkan-drivers 
+      - mesa-vulkan-drivers:i386
+    nvidia:
+      - xserver-xorg-video-nvidia-450
+      - libvulkan1 
+      - libvulkan1:i386
+    amd:
+      - xserver-xorg-video-amd-gpu
+      - libgl1-mesa-dri:i386
+      - mesa-vulkan-drivers 
+      - mesa-vulkan-drivers:i386
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# CPU
+
+cpu:
+  microcode:
+    intel: intel-microcode
+    amd: amd64-microcode
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# NETWORK
+
+hostname: "ubuntu"
+
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages_ppa:
+  - ppa:graphics-drivers/ppa
+  - ppa:oibaf/graphics-drivers
+  - ppa:kisak/kisak-mesa
+
+BASE:
+  - cpufrequtils
+  - iptables-persistent 
+  - netfilter-persistent
+  - samba
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# NOTES
+
+# https://askubuntu.com/questions/1021748/set-cpu-governor-to-performance-in-18-04
+# https://askubuntu.com/questions/1052919/iptables-reload-restart-on-ubuntu-18-04
