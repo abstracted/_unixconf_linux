@@ -4,6 +4,14 @@
 
 os_base: archlinux
 
+#- - - - - - - - - - - - - - - - - - - - - - -
+# KERNEL
+
+kernel:
+  packages:
+    - linux
+    - linux-headers
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 # SUDOERS
 
@@ -36,21 +44,6 @@ timesyncd:
   root_distance_max_sec: 5
   poll_interval_min_sec: 32
   poll_interval_max_sec: 2048
-
-#- - - - - - - - - - - - - - - - - - - - - - -
-# KERNEL
-
-kernel:
-  packages:
-    - linux
-    - linux-headers
-  modules:
-    - usb_storage
-    - usbhid
-    - xhci_pci
-  sysctl:
-    - name: "fs.inotify.max_user_watches"
-      value: 524288
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # VIDEO DRIVERS
@@ -173,3 +166,92 @@ packages_first:
 
 # Packages which should never be installed. Used to blacklist packages from groups.
 packages_blacklist: [] 
+
+
+_CORE:
+  - acl
+  - acpid
+  - cpupower
+  - cronie
+  - dhcpcd
+  - git
+  - gnupg
+  - iptables
+  - man-db
+  - networkmanager
+  - openssh
+  - sshguard
+  - stow
+  - sudo
+
+UTILS_GENERIC:
+  - coreutils
+  - dateutils
+  - moreutils
+
+UTILS_ARCHIVE:
+  - bzip2
+  - gzip
+  - p7zip
+  - unrar
+  - unzip
+  - zip
+UTILS_DOCS:
+  - pandoc
+
+UTILS_FILE_SYSTEMS:
+  - exfat-utils
+  - ext4magic
+  - fuse
+  - ntfs-3g
+  - samba
+  - sshfs
+
+UTILS_FILE_TRANSFER:
+  - curl
+  - lftp
+  - rsync
+  - wget
+  - youtube-dl
+
+UTILS_HARDWARE:
+  - htop
+  - glances
+  - lshw
+  - lsof
+
+UTILS_MULTIMEDIA:
+  - ffmpeg
+  - graphicsmagick
+  - imagemagick
+
+UTILS_NETWORK:
+  - dnsutils
+  - iproute2
+  - net-tools
+  - nmap
+  - openvpn
+  - protonvpn-cli-ng
+  - speedtest-cli
+  - traceroute
+  - whois
+
+DEVELOPMENT:
+  # javascript
+  - nodejs
+  - npm
+  # c++
+  - cmake
+  - gcc
+  - make
+  - extra-cmake-modules
+  # rust
+  - rust
+  # python
+  - python
+  - python-pip
+  # mongodb
+  - mongodb
+  # sql
+  - mariadb
+  - mariadb-clients

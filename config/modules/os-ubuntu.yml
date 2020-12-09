@@ -3,6 +3,20 @@
 # SYSTEM
 
 os_base: ubuntu
+os_version: focal
+
+#- - - - - - - - - - - - - - - - - - - - - - -
+# KERNEL
+
+kernel_version: 5.8
+kernel_subversion: 0-31
+kernel_type: generic
+
+kernel:
+  packages:
+    - linux-image-{{ kernel_version }}-{{ kernel_subversion }}-{{ kernel_type }}
+    - linux-headers-{{ kernel_version }}-{{ kernel_subversion }}-{{ kernel_type }}
+    - linux-tools-{{ kernel_version }}-{{ kernel_subversion }}-{{ kernel_type }}
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # SUDOERS
@@ -31,27 +45,6 @@ timesyncd:
   root_distance_max_sec: 5
   poll_interval_min_sec: 32
   poll_interval_max_sec: 2048
-
-
-#- - - - - - - - - - - - - - - - - - - - - - -
-# KERNEL
-
-kernel_version: 5.8
-kernel_subversion: 0-31
-kernel_type: generic
-
-kernel:
-  packages:
-    - linux-image-{{ kernel_version }}-{{ kernel_subversion }}-{{ kernel_type }}
-    - linux-headers-{{ kernel_version }}-{{ kernel_subversion }}-{{ kernel_type }}
-    - linux-tools-{{ kernel_version }}-{{ kernel_subversion }}-{{ kernel_type }}
-  modules:
-    - usb_storage
-    - usbhid
-    - xhci_pci
-  sysctl:
-    - name: "fs.inotify.max_user_watches"
-      value: 524288
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # VIDEO DRIVERS
@@ -82,24 +75,126 @@ cpu:
     amd: amd64-microcode
 
 # - - - - - - - - - - - - - - - - - - - - - - -
-# NETWORK
-
-hostname: "ubuntu"
-
-
-# - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
 
+packages_aptkey:
+  - https://www.mongodb.org/static/pgp/server-4.4.asc # mongo
+  - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/maste # vscodium
+
+packages_sources:
+  - dest: /etc/apt/sources.list.d/mongodb-org-4.4.list
+    contents: >-
+      deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu {{ os_version }}/mongodb-org/4.4 multiverse
+  - dest: /etc/apt/sources.list.d/vscodium.list
+    content: >-
+      deb https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/ vscodium main
+      
 packages_ppa:
   - ppa:graphics-drivers/ppa
   - ppa:oibaf/graphics-drivers
   - ppa:kisak/kisak-mesa
 
-BASE:
+_CORE:
+  - acl
+  - acpid
   - cpufrequtils
-  - iptables-persistent 
+  - cron
+  - dhcpcd-common
+  - dhcpcd5
+  - git
+  - gnupg
+  - iptables-persistent
+  - linux-tools-common
+  - man-db
   - netfilter-persistent
+  - network-manager
+  - openssh-client
+  - openssh-server 
+  - sshguard
+  - stow
+  - sudo
+  - apt-transport-https
+
+UTILS_GENERIC:
+  - coreutils
+  - moreutils
+  - dateutils
+
+UTILS_ARCHIVE:
+  - bzip2
+  - gzip
+  - p7zip-full
+  - unrar
+  - unzip
+  - zip
+
+UTILS_DOCS:
+  - pandoc
+
+UTILS_FILE_SYSTEMS:
+  - exfat-utils
+  - ext4magic
+  - fuse
+  - ntfs-3g
+  - parted
+
+UTILS_FILE_TRANSFER:
+  - curl
+  - lftp
+  - rsync
+  - wget
+  - youtube-dl
   - samba
+
+UTILS_HARDWARE:
+  - htop
+  - glances
+  - lshw
+  - lsof
+
+UTILS_MULTIMEDIA:
+  - ffmpeg
+  - graphicsmagick
+  - imagemagick
+  
+UTILS_NETWORK:
+  - dnsutils
+  - iproute2
+  - net-tools
+  - nmap
+  - openvpn
+  - protonvpn-cli
+  - speedtest-cli
+  - traceroute
+  - whois
+
+DEVELOPMENT_LANGS:
+  # javascript
+  - nodejs
+  - npm
+  # c++
+  - cmake
+  - gcc
+  - make
+  - extra-cmake-modules
+  # rust
+  - rustc
+  - cargo
+  # python
+  - python3
+  - python3-pip
+  # mongo
+  - mongodb-org
+  # sql
+  - mariadb-client
+  - mariadb-common
+  - mariadb-server
+
+DEVELOPMENT_TOOLS:
+  - neovim
+
+MISC:
+  - cpupower-gui
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # NOTES

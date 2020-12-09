@@ -210,7 +210,7 @@ docker:
 # - - - - - - - - - - - - - - - - - - - - - - -
 # NETWORK
 
-hostname: "linux"
+hostname: "{{ os_base }}"
 
 # Static network configurations: 
 # These can be used by services like dhcpcd for static routes / nameservers
