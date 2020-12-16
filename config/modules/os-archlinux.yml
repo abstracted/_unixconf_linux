@@ -255,3 +255,41 @@ DEVELOPMENT:
   # sql
   - mariadb
   - mariadb-clients
+
+VIRTUALIZATION:
+  - docker
+  - python-docker
+  - vagrant
+  - packer
+
+AUDIO:
+  - alsa-plugins
+  - alsa-utils
+  - pulseaudio
+  - pulseaudio-bluetooth
+
+AUDIO_PRO:    
+  - a2jmidid
+  - yabridge
+  - yabridgectl
+
+FONTS:
+  - fontconfig
+  - gsfonts
+  - inter-font
+  - nerd-fonts-fantasque-sans-mono
+  - nerd-fonts-fira-code
+  - tex-gyre-fonts
+  - ttf-fantasque-sans-mono
+  - ttf-fira-code
+  - ttf-mac-fonts
+  - ttf-ms-fonts
+
+PHONE:
+  - libimobiledevice
+  - ifuse
+
+  # - neovim
+  # - robo3t-bin
+  # - heidisql
+  # - insomnia-bin

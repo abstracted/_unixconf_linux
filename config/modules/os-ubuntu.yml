@@ -168,7 +168,7 @@ UTILS_NETWORK:
   - traceroute
   - whois
 
-DEVELOPMENT_LANGS:
+DEVELOPMENT:
   # javascript
   - nodejs
   - npm
@@ -190,8 +190,58 @@ DEVELOPMENT_LANGS:
   - mariadb-common
   - mariadb-server
 
-DEVELOPMENT_TOOLS:
-  - neovim
+VIRTUALIZATION:
+  - docker
+  - docker-compose
+  - vagrant
+  - packer
+
+AUDIO:
+  - alsa-utils
+  - libasound2-plugins
+  - libasound2-plugins-extra
+  - pulseaudio
+  - bluetooth
+
+AUDIO_PRO:
+  - a2jmidid
+
+FONTS:
+ - fontconfig
+ - fontconfig-config
+ - gsfonts
+ - fonts-inter
+ - fonts-fantasque-sans
+ - fonts-firacode
+ - fonts-texgyre
+ - ttf-mscorefonts-installer
+
+PRINTER:
+  - cups
+  - printer-driver-cups-pdf
+  - printer-driver-escpr
+  - printer-driver-gutenprint
+  - simple-scan
+  - ghostscript
+
+PHONE:
+  - ifuse
+  - libimobiledevice6
+  - libimobiledevice-utils
+
+SHELL:
+  # terminal
+  - kitty
+  # zsh
+  - zsh
+  - zsh-autosuggestions
+  - zsh-common
+  - zsh-syntax-highlighting
+  # shell extensions
+  - neofetch
+  - exa
+  - starship-bin
+  - w3m
 
 MISC:
   - cpupower-gui
