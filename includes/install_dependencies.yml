@@ -1,9 +1,0 @@
----
-- name: Update pacman cache
-  command: "pacman -Syy"
-  become: yes
-  
-- name: Install base dependencies
-  command: "pacman -S --noconfirm {{ item }} --needed"
-  become: yes
-  with_items: "{{ packages_initial_dependencies }}"

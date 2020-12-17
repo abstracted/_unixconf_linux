@@ -365,16 +365,6 @@ packages_key_ids: []
 packages_key_files: []
   # - http://dl.foo.com/keyfile.key
 
-# Dependencies to install before running the ansible playbook
-# These packages can only be from the main arch repos
-packages_initial_dependencies:
-   - base-devel
-   - binutils
-   - git
-   - python2
-   - python-jmespath
-   - openssh
-
 # Packages to install before other packages
 packages_first: []
 

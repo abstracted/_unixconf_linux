@@ -35,24 +35,33 @@
   block:
     - name: Install Intel GPU Drivers
       pacman:
-        name: "{{ video.drivers.intel }}"
+        name: "{{ item }}"
         state: present
-      when: gpu_intel.rc == 0
+      with_items: "{{ video.drivers.intel }}"
       become: yes
+      when: >
+        gpu_intel.rc == 0 and
+        item not in packages_installed
 
     - name: Install AMD GPU Drivers
       pacman:
-        name: "{{ video.drivers.amd }}"
+        name: "{{ item }}"
         state: present
-      when: gpu_amd.rc == 0
+      with_items: "{{ video.drivers.amd }}"
       become: yes
+      when: >
+        gpu_amd.rc == 0 and
+        item not in packages_installed
 
     - name: Install NVidia GPU Drivers
       pacman:
-        name: "{{ video.drivers.nvidia }}"
+        name: "{{ item }}"
         state: present
-      when: gpu_nvidia.rc == 0
+      with_items: "{{ video.drivers.nvidia }}"
       become: yes
+      when: >
+        gpu_nvidia.rc == 0 and
+        item not in packages_installed
   when: os_base == 'archlinux'
 
 - name: Install GPU drviers
@@ -77,17 +86,25 @@
   block:
     - name: Install Intel Microcode
       pacman:
-        name: intel-ucode
+        name: "{{ item }}"
         state: present
-      when: cpu_intel.rc == 0
       become: yes
+      with_items:
+        - intel-ucode
+      when: >
+        cpu_intel.rc == 0 and
+        item not in packages_installed
     
     - name: Install AMD Microcode
       pacman:
-        name: amd-ucode
+        name: "{{ item }}"
         state: present
-      when: cpu_amd.rc == 0
       become: yes
+      with_items:
+        - amd-ucode
+      when: >
+        cpu_amd.rc == 0 and
+        item not in packages_installed
 
 - name: Configure SSD Enhancements
   block:

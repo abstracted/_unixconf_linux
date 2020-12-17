@@ -7,6 +7,7 @@
   with_items: "{{ kernel.packages }}"
   become: yes
   become_user: yay
+  when: item not in packages_installed
 
 - name: Load kernel modules specified in kernel.modules
   modprobe:
