@@ -2,3 +2,4 @@ node_modules
 vars/config.yml
 package-lock.json
 .idea
+.vagrant
