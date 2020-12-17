@@ -20,5 +20,4 @@ services:
     state: started
 
 packages_blacklist:
-  - kwin # using kwin-lowlatency
   - discover-snap

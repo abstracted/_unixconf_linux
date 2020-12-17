@@ -188,7 +188,6 @@ DESKTOP_KDE:
   # extras
   - plasma-wayland-session
   - kdeconnect
-  - kwin-lowlatency
   # display manager
   - sddm-kcm
   # plasma
