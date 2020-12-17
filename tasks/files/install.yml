@@ -5,12 +5,21 @@
     attr: -i
   with_items: "{{ files.locked }}"
 
+- name: Create a list for the file treee
+  set_fact:
+    filetree: []
+
+- name: Populate the filetree
+  set_fact:
+    filetree: "{{ filetree + [ item ] }}"
+  with_filetree: '../templates/'
+
 - name: Ensure directory structure exists for template files
   file:
     path: '/{{ item.path }}'
     state: directory
   become: yes
-  with_filetree: '../templates/'
+  with_items: "{{ filetree }}"
   when: item.state == 'directory'
 
 - name: Write system files from ./templates directory
@@ -19,7 +28,7 @@
     dest: '/{{ item.path | regex_replace("\.j2","") }}'
     backup: no
   become: yes
-  with_filetree: '../templates/'
+  with_items: "{{ filetree }}"
   when: item.state == 'file'
   
 - name: Set executable bit on scripts from /usr/bin templates directory
@@ -29,22 +38,6 @@
     mode: u+x,g+x,o+x
   become: yes
   with_filetree: '../templates/usr/bin'
-  when: item.state == 'file'
-
-- name: Ensure directory structure exists for files
-  file:
-    path: '/{{ item.path }}'
-    state: directory
-  become: yes
-  with_filetree: '../files/'
-  when: item.state == 'directory'
-
-- name: Copy system files from ./files directory
-  copy:
-    src: '{{ item.src }}'
-    dest: '/{{ item.path }}'
-  become: yes
-  with_filetree: '../files/'
   when: item.state == 'file'
 
 - name: Lock files specified in files.locked

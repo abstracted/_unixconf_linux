@@ -1,11 +1,16 @@
 ---
-- name: "Setup the user account for {{ user.name }}"
+- name: Get a list of existing groups
+  raw: 'cat /etc/group | cut -d":" -f1'
+  register: system_groups
+
+- name: "Setup the groups for {{ user.name }}"
   become: yes
   block:
     - name: "Ensure user group exists for {{ user.name }}"
       group:
         name: "{{ user.name }}"
         state: present
+      when: user.name not in system_groups.stdout_lines
 
     - name: "Ensure extra groups exist for {{ user.name }}"
       group:
@@ -14,4 +19,6 @@
       with_items: "{{ user.groups }}"
       loop_control:
         loop_var: group
-      when: user.groups is defined
+      when: >
+        user.groups is defined and
+        group not in system_groups.stdout_lines
