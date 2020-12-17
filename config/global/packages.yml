@@ -32,7 +32,7 @@ UTILS:
 # file systems
   - exfat-utils
   - ext4magic
-  - fuse
+  - fuse3
   - ntfs-3g
   - samba
   - sshfs
@@ -52,7 +52,7 @@ UTILS:
   - graphicsmagick
   - imagemagick
 # network admin
-  - bind-tools
+  - bind
   - iproute2
   - net-tools
   - networkmanager
