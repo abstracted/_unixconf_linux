@@ -7,7 +7,7 @@
   handlers:
     - include: includes/handlers.yml
   pre_tasks:
-    - include: includes/install_dependencies.yml
+    - include: includes/pre_tasks.yml
     - name: Gather facts
       setup:
   tasks:
