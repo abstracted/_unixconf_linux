@@ -240,8 +240,66 @@ SHELL:
   # shell extensions
   - neofetch
   - exa
-  - starship-bin
   - w3m
+
+SHELL_EXTRA:
+  - cava
+  - cowsay
+  - figlet
+  - figlet-fonts
+  - toilet
+  - toilet-fonts
+  - cmatrix
+
+PACKAGE_MANAGERS:
+  - snapd
+  - flatpak
+
+DESKTOP_XORG:
+  - xserver-xorg
+
+DESKTOP_THEME:
+  - pop-sound-theme-bin
+  - papirus-icon-theme
+
+DESKTOP_WM:
+  - bspwm
+  - sxhkd
+  - dunst
+  - picom
+  - polybar
+  - rofi
+  - lxappearance
+
+DESKTOP_UTILS:
+  - dconf-editor
+  - feh
+  - ranger
+  - scrot
+  - xdg-user-dirs
+
+DESKTOP_GNOME:
+  # extra
+  - gnome-tweaks
+  - mousetweaks
+  - gnome-shell-extension-appindicator
+  - gnome-shell-extension-arc-menu
+  - gnome-shell-extension-dashtodock
+  - gnome-shell-extension-dash-to-panel
+  # display manager
+  - gdm3
+  # gnome
+  - vanilla-gnome-desktop
+
+DESKTOP_KDE:
+  # extra
+  - kdeconnect
+  - kwin-wayland-backend-wayland
+  # display manager
+  - kde-config-sddm
+  - sddm
+  # plasma
+  - kde-plasma-desktop
 
 MISC:
   - cpupower-gui
