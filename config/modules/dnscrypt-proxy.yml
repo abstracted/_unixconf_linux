@@ -74,7 +74,7 @@ cron:
       user: root
       state: present
       minute: "0"
-      hour: "0"
+      hour: "4"
       day: "*"
       weekday: "0"
       month: "*"
