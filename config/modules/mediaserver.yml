@@ -8,11 +8,12 @@ users:
     shell: /usr/bin/zsh
     groups:
       - rae
-  - tag: users
-    name: game
-    shell: /usr/bin/zsh
-    groups:
-      - game
+
+#  - tag: users
+#    name: game
+#    shell: /usr/bin/zsh
+#    groups:
+#      - game
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
@@ -80,7 +81,7 @@ cron:
       user: cameron
       state: present
       minute: "0"
-      hour: "12"
+      hour: "6"
       day: "*"
       weekday: "*"
       month: "*"
