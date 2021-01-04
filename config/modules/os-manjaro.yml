@@ -3,7 +3,6 @@ os_base: manjaro
 
 grub:
   params:
-    - quiet 
     - apparmor=1 
     - security=apparmor 
     - udev.log_priority=3
