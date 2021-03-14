@@ -267,12 +267,6 @@ services:
 # - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
 
-# Packages to install before other packages
-packages_first: []
-
-# Packages to remove before installing or updating other packages
-packages_remove: []
-
 # Package sets from ./packages.yml
 packages:
   - _CORE

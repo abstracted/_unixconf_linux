@@ -1,6 +1,6 @@
 ---
 # These tasks must run before facts.yml
-- include: setup.yml
+- include: groups.yml
 - include: install.yml
 
 - include: facts.yml

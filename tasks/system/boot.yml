@@ -17,7 +17,9 @@
         name: "{{ grub.theme.package }}"
       become: yes
       become_user: yay
-      when: grub.theme.package is defined
+      when: >
+        grub.theme.package is defined and
+        grub.theme.package not in packages_installed
 
     - name: Set the grub theme in grub config
       lineinfile:
@@ -47,10 +49,13 @@
   block:
     - name: Install plymouth
       yay:
-        name: plymouth
+        name: "{{ item }}"
         state: present
       become: yes
       become_user: yay
+      with_items:
+        - plymouth
+      when: item not in packages_installed
 
     - name: Install plymouth theme
       yay:
@@ -58,7 +63,9 @@
         state: present
       become: yes
       become_user: yay
-      when: plymouth.theme.package is defined
+      when: >
+        plymouth.theme.package is defined and
+        plymouth.theme.package not in packages_installed
 
     - name: Check if plymouth theme has changed
       command: "grep -Fxq 'Theme={{ plymouth.theme.name }}' /etc/plymouth/plymouthd.conf"

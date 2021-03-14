@@ -21,13 +21,3 @@
   with_items: "{{ services_remove }}"
   ignore_errors: yes
   when: services_remove is defined
-
-# - name: Enable System systemd services from templates directory /etc/systemd/system/
-#   systemd:
-#     name: '{{ item.path | basename | regex_replace("\.j2","") }}'
-#     enabled: yes
-#     state: started
-#   become: yes
-#   with_filetree: '../templates/'
-#   when: item.state == 'file' and item.path | regex_search("systemd/system/.*(service|timer)")
-#   ignore_errors: yes

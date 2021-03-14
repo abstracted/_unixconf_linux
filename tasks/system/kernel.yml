@@ -7,13 +7,21 @@
   with_items: "{{ kernel.packages }}"
   become: yes
   become_user: yay
+  when: item not in packages_installed
+
+- name: Get list of loaded kernel modules
+  raw: 'cat /proc/modules  | cut -d" " -f1'
+  register: loaded_kernel_modules
 
 - name: Load kernel modules specified in kernel.modules
   modprobe:
     name: "{{ item }}"
     state: present
   with_items: "{{ kernel.modules }}"
-  when: kernel.modules is defined and kernel.modules | length > 0
+  when: >
+    kernel.modules is defined and 
+    kernel.modules | length > 0 and
+    item not in loaded_kernel_modules.stdout_lines
   ignore_errors: yes
   become: yes
 

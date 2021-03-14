@@ -8,11 +8,12 @@ users:
     shell: /usr/bin/zsh
     groups:
       - rae
-  - tag: users
-    name: game
-    shell: /usr/bin/zsh
-    groups:
-      - game
+
+#  - tag: users
+#    name: game
+#    shell: /usr/bin/zsh
+#    groups:
+#      - game
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
@@ -71,61 +72,16 @@ fstab:
     state: mounted
     opts: "{{ filesystem_external_opts }}"
     
-  - src: "/dev/disk/by-label/CAMERON_BACKUP"
-    path: "/mnt/CAMERON_BACKUP"
-    fstype: "ext4"
-    state: mounted
-    opts: "{{ filesystem_external_opts }}"
-
-  - src: "/dev/disk/by-label/GAME_1"
-    path: "/mnt/GAME_1"
-    fstype: "ext4"
-    state: mounted
-    opts: "{{ filesystem_external_opts }}"
-
-  - src: "/dev/disk/by-label/GAME_2"
-    path: "/mnt/GAME_2"
-    fstype: "ext4"
-    state: mounted
-    opts: "{{ filesystem_external_opts }}"
-
-  - src: "/dev/disk/by-label/GAME_3"
-    path: "/mnt/GAME_3"
-    fstype: "ext4"
-    state: mounted
-    opts: "{{ filesystem_external_opts }}"
-
-  - src: "/dev/disk/by-label/GAME_4"
-    path: "/mnt/GAME_4"
-    fstype: "ext4"
-    state: mounted
-    opts: "{{ filesystem_external_opts }}"
-
-  - src: "/dev/disk/by-label/GAME_5"
-    path: "/mnt/GAME_5"
-    fstype: "ext4"
-    state: mounted
-    opts: "{{ filesystem_external_opts }}"
-
 # - - - - - - - - - - - - - - - - - - - - - - -
 # CRON
 
 cron:
   jobs:
-    - name: backup-cameron
-      user: root
-      state: present
-      minute: "0"
-      hour: "*/6"
-      day: "*"
-      weekday: "*"
-      month: "*"
-      job: rsync -avh -zz --min-size=1 /mnt/CAMERON/ /mnt/CAMERON_BACKUP/
     - name: mirror-github
       user: cameron
       state: present
       minute: "0"
-      hour: "12"
+      hour: "6"
       day: "*"
       weekday: "*"
       month: "*"

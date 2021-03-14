@@ -82,10 +82,13 @@
 
     - name: Install yay dependencies
       pacman:
-        name: go
+        name: "{{ item }}"
         state: present
         update_cache: yes
       become: yes
+      with_items:
+        - go
+      when: item not in packages_installed
 
     - name: Remove existing yay source dir if no PKGBUILD exists in it
       command: rm -rfv /home/yay/yay
