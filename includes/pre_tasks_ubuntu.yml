@@ -1,0 +1,5 @@
+---
+- name: Update apt cache
+  command: "apt update"
+  become: yes
+  when: os_base == 'ubuntu'

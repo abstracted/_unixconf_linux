@@ -158,77 +158,79 @@ packages_initial_dependencies:
    - binutils
    - git
    - python2
+   - python-typer
    - python-jmespath
    - openssh
 
 packages_first:
   - reflector
 
+# Packages to remove before installing or updating other packages
+packages_remove: []
+
 # Packages which should never be installed. Used to blacklist packages from groups.
 packages_blacklist: [] 
 
 
 _CORE:
-  - acl
   - acpid
+  - cmake
   - cpupower
   - cronie
-  - dhcpcd
+  - extra-cmake-modules
+  - gcc
   - git
   - gnupg
-  - iptables
+  - make
   - man-db
-  - networkmanager
   - openssh
-  - sshguard
   - stow
   - sudo
+  - acl
+  - sshguard
 
-UTILS_GENERIC:
+UTILS:
+# _misc
   - coreutils
   - dateutils
   - moreutils
-
-UTILS_ARCHIVE:
+# archives
   - bzip2
   - gzip
   - p7zip
   - unrar
   - unzip
   - zip
-UTILS_DOCS:
+# documents
   - pandoc
-
-UTILS_FILE_SYSTEMS:
+# file systems
   - exfat-utils
   - ext4magic
-  - fuse
+  - fuse3
   - ntfs-3g
   - samba
   - sshfs
-
-UTILS_FILE_TRANSFER:
+# file transfer
   - curl
   - lftp
   - rsync
   - wget
   - youtube-dl
-
-UTILS_HARDWARE:
+# hardware
   - htop
   - glances
   - lshw
   - lsof
-
-UTILS_MULTIMEDIA:
+# multimedia
   - ffmpeg
   - graphicsmagick
   - imagemagick
-
-UTILS_NETWORK:
-  - dnsutils
+# network admin
+  - bind
   - iproute2
   - net-tools
+  - networkmanager
+  - dhcpcd
   - nmap
   - openvpn
   - protonvpn-cli-ng
@@ -237,24 +239,13 @@ UTILS_NETWORK:
   - whois
 
 DEVELOPMENT:
-  # javascript
-  - nodejs
-  - npm
-  # c++
-  - cmake
-  - gcc
-  - make
-  - extra-cmake-modules
-  # rust
-  - rust
-  # python
+  - neovim
+  - nvm
+  - robo3t-bin
+  - heidisql
+  - insomnia-bin
   - python
   - python-pip
-  # mongodb
-  - mongodb
-  # sql
-  - mariadb
-  - mariadb-clients
 
 VIRTUALIZATION:
   - docker
@@ -270,8 +261,7 @@ AUDIO:
 
 AUDIO_PRO:    
   - a2jmidid
-  - yabridge
-  - yabridgectl
+  - linvst
 
 FONTS:
   - fontconfig
@@ -297,6 +287,8 @@ PRINTER:
 PHONE:
   - libimobiledevice
   - ifuse
+  - gvfs-afc
+  - gvfs-gphoto2 
 
 SHELL:
   # terminal
@@ -322,7 +314,6 @@ SHELL_EXTRA:
   - toilet
   - toilet-fonts
   - unimatrix-git
-  - cmatrix
 
 PACKAGE_MANAGERS:
   - snapd
@@ -371,7 +362,6 @@ DESKTOP_KDE:
   # extras
   - plasma-wayland-session
   - kdeconnect
-  - kwin-lowlatency
   # display manager
   - sddm-kcm
   # plasma
@@ -422,6 +412,7 @@ DESKTOP_APPS:
   - remmina
 # network_files
   - filezilla
+  - syncthing-gtk
   - youtube-dl-gui-git
 # office
   - foliate
@@ -560,8 +551,3 @@ GAMES:
   - sqlite
   - v4l-utils
   - vulkan-icd-loader
-
-  # - neovim
-  # - robo3t-bin
-  # - heidisql
-  # - insomnia-bin
