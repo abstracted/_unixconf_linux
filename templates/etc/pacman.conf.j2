@@ -1,12 +1,12 @@
 
 [options]
-{% if os_base == 'archlinux' or os_base == 'manjaro' %}
+{% if os_distribution == 'archlinux' %}
 Architecture = auto
 {% endif %}
-{% if os_base == 'archlinux_arm' %}
+{% if os_distribution == 'archlinux' and os_arch == 'arm' %}
 Architecture = armv7h
 {% endif %}
-{% if os_base == 'manjaro_arm' %}
+{% if os_distribution == 'manjaro' and os_arch == 'arm' %}
 Architecture = aarch64
 {% endif %}
 
@@ -21,7 +21,7 @@ ILoveCandy
 TotalDownload
 VerbosePkgLists
 
-{% if os_base == 'archlinux' or os_base == 'manjaro' %}
+{% if (os_distribution == 'archlinux' or os_distribution == 'manjaro') and os_arch == 'x86-64' %}
 [core]
 Include = /etc/pacman.d/mirrorlist
 
@@ -34,7 +34,7 @@ Include = /etc/pacman.d/mirrorlist
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 {% endif %}
-{% if os_base == 'archlinux_arm' %}
+{% if os_distribution == 'archlinux' and os_arch == 'arm' %}
 [core]
 Include = /etc/pacman.d/mirrorlist
 
@@ -50,7 +50,7 @@ Include = /etc/pacman.d/mirrorlist
 [aur]
 Include = /etc/pacman.d/mirrorlist
 {% endif %}
-{% if os_base == 'manjaro_arm' %}
+{% if os_distribution == 'manjaro' and os_arch == 'arm' %}
 [core]
 #Include = /etc/pacman.d/mirrorlist
 Server = http://mirrors.dotsrc.org/manjaro-arm/stable/$arch/$repo

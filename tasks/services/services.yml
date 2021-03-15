@@ -1,6 +1,8 @@
 ---
 - name: "Reload the systemd daemon" 
-  command: systemctl daemon-reload
+  systemd: 
+    daemon_reload: yes
+  become: yes
 
 - name: Setup services defined in services
   systemd:

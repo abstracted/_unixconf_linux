@@ -1,18 +1,4 @@
 ---
-- name: Uninstall packages specified in packages_remove
-  command: "sudo pacman -Rns {{ item }}"
-  with_items: "{{ packages_remove }}"
-  become: yes
-  ignore_errors: yes
-  when: packages_remove | length > 0
-
-- name: Upgrade the system
-  pacman:
-    update_cache: yes
-    upgrade: yes
-    state: present
-  become: yes
-
 - name: Create a list of packages which need to be installed
   set_fact:
     packages_needed: >
@@ -25,10 +11,9 @@
     msg: "{{ packages_needed }}"
 
 - name: Install packages
-  yay:
+  apt:
     update_cache: no
     name: "{{ item }}"
     state: present
   with_items: "{{ packages_needed }}"
   become: yes
-  become_user: yay

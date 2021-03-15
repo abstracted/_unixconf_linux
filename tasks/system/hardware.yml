@@ -34,7 +34,7 @@
 - name: Install GPU drviers
   block:
     - name: Install Intel GPU Drivers
-      pacman:
+      package:
         name: "{{ item }}"
         state: present
       with_items: "{{ video.drivers.intel }}"
@@ -44,7 +44,7 @@
         item not in packages_installed
 
     - name: Install AMD GPU Drivers
-      pacman:
+      package:
         name: "{{ item }}"
         state: present
       with_items: "{{ video.drivers.amd }}"
@@ -54,7 +54,7 @@
         item not in packages_installed
 
     - name: Install NVidia GPU Drivers
-      pacman:
+      package:
         name: "{{ item }}"
         state: present
       with_items: "{{ video.drivers.nvidia }}"
@@ -62,7 +62,8 @@
       when: >
         gpu_nvidia.rc == 0 and
         item not in packages_installed
-  when: os_base == 'archlinux'
+  when: os_distribution == 'archlinux' or 
+        os_distribution == 'ubuntu'
 
 - name: Install GPU drviers
   block:
@@ -80,31 +81,27 @@
       command: mhwd -a pci nonfree 0300
       when: gpu_nvidia.rc == 0
       become: yes
-  when: os_base == 'manjaro'
+  when: os_distribution == 'manjaro'
 
 - name: Install CPU drviers
   block:
     - name: Install Intel Microcode
-      pacman:
-        name: "{{ item }}"
+      package:
+        name: "{{ cpu.microcode.intel }}"
         state: present
       become: yes
-      with_items:
-        - intel-ucode
       when: >
         cpu_intel.rc == 0 and
-        item not in packages_installed
+        cpu.microcode.intel not in packages_installed
     
     - name: Install AMD Microcode
-      pacman:
-        name: "{{ item }}"
+      package:
+        name: "{{ cpu.microcode.amd }}"
         state: present
       become: yes
-      with_items:
-        - amd-ucode
       when: >
         cpu_amd.rc == 0 and
-        item not in packages_installed
+        cpu.microcode.amd not in packages_installed
 
 - name: Configure SSD Enhancements
   block:

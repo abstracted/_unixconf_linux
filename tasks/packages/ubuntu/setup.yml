@@ -1,0 +1,47 @@
+---
+- name: Add support for 32 bit architecture packages
+  raw: dpkg --add-architecture i386
+  become: yes
+
+- name: Add APT Keys from ASC file
+  apt_key:
+    url: "{{ item.url }}"
+    state: present
+  with_items: "{{ packages_aptkey.asc }}"
+  become: yes
+
+- name: Add APT Key from keyserver
+  apt_key:
+    keyserver: "{{ item.url }}"
+    id: "{{ item.id }}"
+    state: present
+  with_items: "{{ packages_aptkey.keyserver }}"
+  become: yes
+
+- name: Add APT sources from third party repos
+  apt_repository:
+    repo: "{{ item.content }}"
+    state: present
+    filename: "{{ item.name }}"
+  with_items: "{{ packages_repository.source }}"
+  become: yes
+
+- name: Add APT sources from PPAs
+  apt_repository:
+    repo: "ppa:{{ item }}"
+    state: present
+  with_items: "{{ packages_repository.ppa }}"
+  become: yes
+
+- name: Uninstall packages specified in packages_remove
+  command: "apt purge -y {{ item }}"
+  with_items: "{{ packages_remove }}"
+  become: yes
+  ignore_errors: yes
+  when: packages_remove | length > 0
+
+- name: Upgrade the system
+  apt:
+    update_cache: yes
+    upgrade: yes
+  become: yes

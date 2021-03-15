@@ -112,3 +112,17 @@
       args:
         chdir: /home/yay/yay
   when: package_yay_state.rc != 0
+
+- name: Uninstall packages specified in packages_remove
+  command: "sudo pacman -Rns {{ item }}"
+  with_items: "{{ packages_remove }}"
+  become: yes
+  ignore_errors: yes
+  when: packages_remove | length > 0
+
+- name: Upgrade the system
+  pacman:
+    update_cache: yes
+    upgrade: yes
+    state: present
+  become: yes

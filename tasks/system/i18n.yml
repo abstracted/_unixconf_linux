@@ -4,10 +4,12 @@
     name: "{{ i18n.timezone }}"
     hwclock: UTC
   when: i18n.timezone is defined
+  become: yes
 
 - name: Use localtime time standard
   command: timedatectl set-local-rtc 0
   when: i18n.localtime is defined
+  become: yes
 
 - name: Ensure locale is present in locale.conf
   lineinfile:
@@ -24,9 +26,11 @@
 - name: Set the keymap
   command: "localectl set-keymap --no-convert {{ i18n.keymap }}"
   when: i18n.keymap is defined
+  become: yes
 
 - name: Generate the system locale
   locale_gen:
     name: "{{ i18n.locale }}"
     state: present
   when: i18n.locale is defined
+  become: yes

@@ -4,6 +4,7 @@
     path: "{{ item }}"
     attr: -i
   with_items: "{{ files.locked }}"
+  become: yes
 
 - name: Create a list for the file treee
   set_fact:
@@ -45,3 +46,12 @@
     path: "{{ item }}"
     attr: +i
   with_items: "{{ files.locked }}"
+  become: yes
+
+- name: Link files specified in files.links
+  file:
+    src: "{{ item.src }}"
+    path: "{{ item.path }}"
+    state: link
+  with_items: "{{ files.links }}"
+  become: yes

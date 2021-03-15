@@ -1,3 +1,6 @@
 ---
-- include: setup.yml
-- include: install.yml
+- include: archlinux/tasks.yml
+  when: os_distribution == "archlinux"
+
+- include: ubuntu/tasks.yml
+  when: os_distribution == "ubuntu"

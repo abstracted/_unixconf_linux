@@ -28,7 +28,7 @@
 - name: Install base dependencies
   command: "pacman -S --noconfirm {{ item }} --needed"
   become: yes
-  with_items: packages_initial_dependencies
+  with_items: "{{ packages_initial_dependencies }}"
   when: item not in packages_installed
 
 - name: Link jmespath for ansible line-in-file module

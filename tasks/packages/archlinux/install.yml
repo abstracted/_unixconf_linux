@@ -1,0 +1,18 @@
+---
+- name: Create a list of packages which need to be installed
+  set_fact:
+    packages_needed: >
+      {{ packages_first + (packages | sort) | 
+        difference(packages_installed) |
+        difference(packages_blacklist) }}
+
+- name: The following packages will be installed
+  debug: 
+    msg: "{{ packages_needed }}"
+
+- name: Install packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ packages_needed }}"
+  become: yes

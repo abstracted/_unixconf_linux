@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-{% if os_base == 'archlinux' %}
+{% if os_distribution == 'archlinux' %}
 
 sudo reflector_bin --latest 20 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
 
@@ -9,7 +9,7 @@ then
 fi
 
 {% endif %}
-{% if os_base == 'manjaro' %}
+{% if os_distribution == 'manjaro' %}
 
 sudo pacman-mirrors -c "United_States"
 {% endif %}

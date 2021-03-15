@@ -2,7 +2,7 @@
 # - - - - - - - - - - - - - - - - - - - - - - -
 # SYSTEM
 
-os_base: archlinux
+os_distribution: archlinux
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 # KERNEL
@@ -138,6 +138,27 @@ services:
 # - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
 
+# Dependencies to install before running the ansible playbook
+# These packages can only be from the main arch repos
+packages_initial_dependencies:
+   - base-devel
+   - binutils
+   - git
+   - openssh
+   - python-jmespath
+   - python-typer
+   - python2
+   - stow
+
+packages_first:
+  - reflector
+
+# Packages to remove before installing or updating other packages
+packages_remove: []
+
+# Packages which should never be installed. Used to blacklist packages from groups.
+packages_blacklist: [] 
+
 # Specify known hosts for pacman / yay
 packages_ssh_known_hosts: []
   # - "|1|REx/t/at9hf5s3fs6wWE9jqDpzQ=|h19BNpNqbsF4OW4lvseOGK/0qcE= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOZAVWmj2k+dHTfyum7FyIivGcVUkDFHaXmPNxDwF7l8TvkAN8VDQJHEEGJhALMYtNsQ+kt0gksSh4HZqj9n5hI="
@@ -150,27 +171,6 @@ packages_key_ids: []
 # pacman-key --add will be ran against the items in the list
 packages_key_files: []
   # - http://dl.foo.com/keyfile.key
-
-# Dependencies to install before running the ansible playbook
-# These packages can only be from the main arch repos
-packages_initial_dependencies:
-   - base-devel
-   - binutils
-   - git
-   - python2
-   - python-typer
-   - python-jmespath
-   - openssh
-
-packages_first:
-  - reflector
-
-# Packages to remove before installing or updating other packages
-packages_remove: []
-
-# Packages which should never be installed. Used to blacklist packages from groups.
-packages_blacklist: [] 
-
 
 _CORE:
   - acpid
@@ -372,7 +372,6 @@ DESKTOP_XFCE:
   - xscreensaver
   - mugshot
   - lightdm-gtk-greeter-settings
-  - fluxgui
   - gvfs
   - gvfs-smb
   # display manager

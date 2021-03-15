@@ -1,4 +1,9 @@
 ---
+# TODO: add equivalent of set mkinitcpio for other OS
+# Ubuntu https://manpages.ubuntu.com/manpages/xenial/man8/initramfs-tools.8.html
+
+# TODO: separate or normalize tasks here for ubuntu / arch
+
 - name: Setup mkinitcpio
   block:
     - name: Set mkinitcpio hook parameters
@@ -9,14 +14,15 @@
         line: 'HOOKS=({{ mkinitcpio.hooks | join(" ") }})'
       when: mkinitcpio.hooks is defined and mkinitcpio.hooks | length > 0
       become: yes
+  when: os_distribution == "archlinux"
 
 - name: Setup grub boot manager
   block: 
     - name: Install the grub theme package
-      yay:
+      package:
         name: "{{ grub.theme.package }}"
+        state: present
       become: yes
-      become_user: yay
       when: >
         grub.theme.package is defined and
         grub.theme.package not in packages_installed
@@ -48,21 +54,19 @@
 - name: Setup plymouth splash screen
   block:
     - name: Install plymouth
-      yay:
+      package:
         name: "{{ item }}"
         state: present
       become: yes
-      become_user: yay
       with_items:
         - plymouth
       when: item not in packages_installed
 
     - name: Install plymouth theme
-      yay:
+      package:
         name: "{{ plymouth.theme.package }}"
         state: present
       become: yes
-      become_user: yay
       when: >
         plymouth.theme.package is defined and
         plymouth.theme.package not in packages_installed

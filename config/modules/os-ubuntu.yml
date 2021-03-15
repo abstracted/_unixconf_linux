@@ -2,21 +2,21 @@
 # - - - - - - - - - - - - - - - - - - - - - - -
 # SYSTEM
 
-os_base: ubuntu
+os_distribution: ubuntu
 os_version: focal
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 # KERNEL
 
 kernel_version: 5.8
-kernel_subversion: 0-31
+kernel_subversion: 0-44
 kernel_type: generic
 
 kernel:
   packages:
-    - linux-image-{{ kernel_version }}-{{ kernel_subversion }}-{{ kernel_type }}
-    - linux-headers-{{ kernel_version }}-{{ kernel_subversion }}-{{ kernel_type }}
-    - linux-tools-{{ kernel_version }}-{{ kernel_subversion }}-{{ kernel_type }}
+    - linux-image-{{ kernel_version }}.{{ kernel_subversion }}-{{ kernel_type }}
+    - linux-headers-{{ kernel_version }}.{{ kernel_subversion }}-{{ kernel_type }}
+    - linux-tools-{{ kernel_version }}.{{ kernel_subversion }}-{{ kernel_type }}
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # SUDOERS
@@ -77,8 +77,12 @@ cpu:
 # - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
 
-# sudo dpkg --add-architecture i386
+packages_initial_dependencies: 
+  - stow
 
+packages_first: []
+packages_remove: []
+packages_blacklist: []
 
 packages_aptkey:
   asc:
@@ -88,34 +92,33 @@ packages_aptkey:
     - url: https://typora.io/linux/public-key.asc # typora
     - url: https://dl.winehq.org/wine-builds/winehq.key # wine
   keyserver:
-    - key: 379CE192D401AB61 # balena etcher
-      url: hkps://keyserver.ubuntu.com:443
+    - id: 379CE192D401AB61 # balena etcher
+      url: keyserver.ubuntu.com
 
-packages_sources:
-  - dest: /etc/apt/sources.list.d/mongodb-org-4.4.list
-    contents: >-
-      deb [arch=amd64,arm64] https://repo.mongodb.org/apt/ubuntu {{ os_version }}/mongodb-org/4.4 multiverse
-  - dest: /etc/apt/sources.list.d/vscode.list
-    content: >-
-      deb [arch=amd64] https://packages.microsoft.com/repos/vscode {{ os_version }} main
-  - dest: /etc/apt/sources.list.d/brave-browser-release.list
-    content: >-
-      deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ {{ os_version }} main
-  - dest: /etc/apt/sources.list.d/typora.list
-    content: >-
-      deb [arch=amd64] https://typora.io/linux {{ os_version }} main
-  - dest: /etc/apt/sources.list.d/wine.list
-    content: >-
-      deb [arch=amd64] http://dl.winehq.org/wine-builds/ubuntu {{ os_version }} main
-      
-packages_ppa:
-  - apandada1/foliate
-  - graphics-drivers/ppa
-  - kisak/kisak-mesa
-  - lutris-team/lutris
-  - nathan-renniewaldock/flux
-  - nilarimogard/webupd8
-  - oibaf/graphics-drivers
+packages_repository:
+  source:
+    - name: mongodb-org-4.4
+      content: >-
+        deb [arch=amd64,arm64] https://repo.mongodb.org/apt/ubuntu {{ os_version }}/mongodb-org/4.4 multiverse
+    - name: vscode
+      content: >-
+        deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+    - name: brave-browser-release
+      content: >-
+        deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main
+    - name: typora
+      content: >-
+        deb [arch=amd64] https://typora.io/linux ./
+    - name: wine.list
+      content: >-
+        deb [arch=amd64] http://dl.winehq.org/wine-builds/ubuntu {{ os_version }} main
+  ppa:
+    - apandada1/foliate
+    - graphics-drivers/ppa
+    - kisak/kisak-mesa
+    - lutris-team/lutris
+    - nilarimogard/webupd8
+    - oibaf/graphics-drivers
 
 _CORE:
   - acl
@@ -328,7 +331,6 @@ DESKTOP_XFCE:
   # extras
   - xscreensaver
   - mugshot
-  - fluxgui
   - gvfs
   - gvfs-backend
   - gvfs-common

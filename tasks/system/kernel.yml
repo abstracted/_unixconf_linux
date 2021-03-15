@@ -1,12 +1,10 @@
 ---
 - name: Install kernel packages
-  yay:
+  package:
     name: "{{ item }}"
     state: present
-    update_cache: yes
   with_items: "{{ kernel.packages }}"
   become: yes
-  become_user: yay
   when: item not in packages_installed
 
 - name: Get list of loaded kernel modules
