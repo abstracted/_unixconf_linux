@@ -1,5 +1,7 @@
-node_modules
-vars/config.yml
-package-lock.json
 .idea
 .vagrant
+node_modules
+package-lock.json
+playbook/templates
+playbook/Vagrantfile
+playbook/vars/config.yml

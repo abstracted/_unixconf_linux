@@ -1,2 +1,2 @@
-./generate-config -s desktop -m os-archlinux,desktop,desktop-kde
+./generate-config -s desktop
 sudo ansible-playbook playbook.yml

@@ -1,2 +1,2 @@
-./generate-config -s game -m os-archlinux,desktop,desktop-kde
+./generate-config -s game
 sudo ansible-playbook playbook.yml
