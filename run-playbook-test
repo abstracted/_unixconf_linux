@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-./generate-playbook $@
+./generate-playbook $@ -t
 
 cd playbook
-vagrant up
+vagrant up || vagrant provision

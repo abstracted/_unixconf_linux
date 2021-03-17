@@ -7,8 +7,8 @@ src/node_modules
 src/.idea
 src/package-lock.json
 
-playbook/docker-templates
-playbook/templates
+playbook/docker-templates/*
+playbook/templates/*
 playbook/Vagrantfile
-playbook/vars
-playbook/.vagrant
+playbook/vars/*
+playbook/.vagrant/*
