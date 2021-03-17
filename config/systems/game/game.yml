@@ -22,7 +22,7 @@ hostname: "gamestation"
 # - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
 
-packages:
+packages_categories:
   - AUDIO_PRO
   - GAMES
 

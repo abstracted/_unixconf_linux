@@ -17,13 +17,20 @@
   },
   "homepage": "https://gitlab.com/abstracted1/archlinux-config#readme",
   "dependencies": {
-    "chalk": "^3.0.0",
-    "commander": "^4.1.1",
-    "deep-equal": "^2.0.1",
+    "chalk": "^4.1.0",
+    "commander": "^7.1.0",
+    "deep-equal": "^2.0.5",
     "deep-object-diff": "^1.1.0",
     "deepmerge": "^4.2.2",
-    "js-yaml": "^3.13.1",
-    "recursive-diff": "^1.0.2",
-    "standard": "^14.3.3"
+    "js-yaml": "^3.14.1",
+    "recursive-diff": "^1.0.8"
+  },
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "eslint-config-standard": "^20.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "standard": "^16.0.3"
   }
 }

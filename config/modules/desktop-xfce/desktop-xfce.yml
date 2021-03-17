@@ -2,7 +2,7 @@
 # - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
 
-packages:
+packages_categories:
   - DESKTOP_XFCE
   - DESKTOP_GTK_APPS
 

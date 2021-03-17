@@ -277,7 +277,7 @@ packages_remove: []
 packages_blacklist: []
 
 # Package sets from ./packages.yml
-packages:
+packages_categories:
   - _CORE
   - FONTS
   - SHELL

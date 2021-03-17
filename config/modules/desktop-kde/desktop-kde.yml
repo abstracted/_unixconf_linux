@@ -1,7 +1,7 @@
 # - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
 
-packages:
+packages_categories:
   - DESKTOP_KDE
   - DESKTOP_QT_APPS
 

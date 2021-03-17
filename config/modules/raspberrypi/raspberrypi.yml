@@ -11,7 +11,7 @@ plymouth:
 # - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
 
-packages:
+packages_categories:
   - AUDIO
   - DESKTOP_THEME
   - DESKTOP_UTILS

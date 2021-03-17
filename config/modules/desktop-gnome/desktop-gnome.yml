@@ -2,7 +2,7 @@
 # - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
 
-packages:
+packages_categories:
   - DESKTOP_GNOME
   - DESKTOP_GTK_APPS
 

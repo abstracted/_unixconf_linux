@@ -5,7 +5,7 @@
 packages_first:
   - wine-staging
 
-packages:
+packages_categories:
   - AUDIO
   - DESKTOP_XORG
   - DESKTOP_THEME
