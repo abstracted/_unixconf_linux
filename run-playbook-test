@@ -2,4 +2,4 @@
 ./generate-playbook $@
 
 cd playbook
-ansible-playbook 
+vagrant up

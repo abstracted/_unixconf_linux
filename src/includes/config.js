@@ -271,39 +271,6 @@ module.exports = {
   syncConfig
 }
 
-// RUN PLAYBOOK FUNCTIONALITY.
-// usage: runPlaybook('sudo ansible-playbook playbook.yml')
-// /**
-// * Function to issue bash commands, returns the stdout.
-// * @param command
-// * @returns {string} stdout
-// */
-// async function runPlaybook (command) {
-//   return new Promise((resolve, reject) => {
-//     const child = system.exec(command)
-//     let stdout = ''
-//     child.stdout.on('data', data => {
-//       let color = 'white'
-//       if (data.match(/^ok/gm)) color = 'green'
-//       if (data.match(/^changed/gm)) color = 'yellow'
-//       if (data.match(/^skipping/gm)) color = 'gray'
-//       if (data.match(/\.\.\.ignoring/)) color = 'magenta'
-//       if (data.match(/error/gmi)) color = 'red'
-//       log(color, data)
-//       stdout += '\n' + data
-//     })
-//     child.stderr.on('data', data => {
-//       log('red', data)
-//     })
-//     child.on('error', error => {
-//       log('red', error)
-//       reject(error)
-//     })
-//     child.on('close', code => {
-//       resolve(stdout)
-//     })
-//   })
-// }
 // CONFIG DIFFING FUNCTIONALITY: Was removed to reduce the complexity of the script
 // function getStoreConfigs (system) {
 //   const storePathExists = statPath(STORE_PATH)
