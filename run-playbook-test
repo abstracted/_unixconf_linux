@@ -2,4 +2,4 @@
 ./generate-playbook $@ -t
 
 cd playbook
-vagrant up || vagrant provision
+vagrant up --provision
