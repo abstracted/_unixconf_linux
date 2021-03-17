@@ -1,4 +1,7 @@
 .vagrant
+node_modules
+.idea
+package-lock.json
 
 src/node_modules
 src/.idea
@@ -8,3 +11,4 @@ playbook/docker-templates
 playbook/templates
 playbook/Vagrantfile
 playbook/vars
+playbook/.vagrant
