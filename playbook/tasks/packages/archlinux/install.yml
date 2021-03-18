@@ -11,8 +11,9 @@
     msg: "{{ packages_needed }}"
 
 - name: Install packages
-  apt:
+  yay:
     name: "{{ item }}"
     state: present
   with_items: "{{ packages_needed }}"
   become: yes
+  become_user: yay

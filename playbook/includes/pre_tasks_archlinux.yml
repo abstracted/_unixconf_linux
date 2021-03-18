@@ -1,6 +1,6 @@
 ---
 - name: Update pacman cache
-  command: "pacman -Syy"
+  command: "pacman -Sy"
   become: yes
 
 - name: Create a list of already installed pacman packages
@@ -14,8 +14,9 @@
   register: pacman_groups_installed
 
 - name: Create a list of already installed pacman aur packages
-  raw: "pacman -Qqm"
+  command: "pacman -Qqm"
   become: yes
+  ignore_errors: yes
   register: pacman_aur_installed
 
 - name: Merge list of already installed packages
@@ -26,7 +27,7 @@
       pacman_aur_installed.stdout_lines }}
 
 - name: Install base dependencies
-  command: "pacman -S --noconfirm {{ item }} --needed"
+  command: "pacman -S --noconfirm {{ item }}"
   become: yes
   with_items: "{{ packages_initial_dependencies }}"
   when: item not in packages_installed
