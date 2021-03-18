@@ -215,9 +215,11 @@ DESKTOP_XFCE:
   - gvfs-common
   - gvfs-daemons
   # display manager
-  - lightdm
-  - lightdm-gtk-greeter-settings
-  - lightdm-gtk-greeter
+  - gdm3
+  # TODO lightdm setup confusing on ubuntu, requires modification of non-standard files
+  # - lightdm
+  # - lightdm-gtk-greeter-settings
+  # - lightdm-gtk-greeter
   # xfce
   - xfce4
   - xfce4-goodies

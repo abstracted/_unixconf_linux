@@ -14,7 +14,7 @@
 #xdmcp-manager=
 #xdmcp-port=177
 #xdmcp-key=
-greeter-session={{ lightdm_greeter }}
+greeter-session={{ lightdm_greeter | default('lightdm-gtk-greeter') }}
 #greeter-hide-users=false
 #greeter-allow-guest=true
 #greeter-show-manual-login=false
