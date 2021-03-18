@@ -144,7 +144,7 @@ SHELL:
   - zsh-syntax-highlighting
   # shell extensions
   - neofetch
-  - exa
+  # - exa
   - w3m
 
 SHELL_EXTRA:
@@ -211,7 +211,7 @@ DESKTOP_XFCE:
   - xscreensaver
   - mugshot
   - gvfs
-  - gvfs-backend
+  # - gvfs-backend
   - gvfs-common
   - gvfs-daemons
   # display manager
