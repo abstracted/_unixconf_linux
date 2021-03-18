@@ -231,9 +231,9 @@ function syncVagrantfile (vagrantfile) {
     return false
   }
 
-  const rsync = exec('which rsync')
+  const cp = exec('which cp')
 
-  if (!rsync) {
+  if (!cp) {
     return false
   }
 
@@ -243,7 +243,7 @@ function syncVagrantfile (vagrantfile) {
     makeDir(PLAYBOOK_PATH)
   }
 
-  exec(`${rsync} -avh --update ${vagrantfile} ${PLAYBOOK_PATH}`)
+  exec(`${cp} -f ${vagrantfile} ${PLAYBOOK_PATH}`)
 }
 
 function syncConfig (config) {
