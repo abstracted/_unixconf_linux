@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cd playbook
+vagrant destroy -f test
+rm -rf .vagrant
