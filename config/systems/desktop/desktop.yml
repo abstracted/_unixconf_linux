@@ -4,6 +4,11 @@
 
 hostname: "workstation"
 
+firewall:
+  ports:
+    protonimap: 1143
+    protonsmtp: 1025
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
 

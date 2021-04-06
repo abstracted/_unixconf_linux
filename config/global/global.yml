@@ -249,9 +249,6 @@ network_manager:
 firewall:
   # ports listed here will be opened via iptables
   ports:
-    protonimap: 1143
-    protonsmtp: 1025
-    samba: 445
     ssh: 22
 
 # - - - - - - - - - - - - - - - - - - - - - - -

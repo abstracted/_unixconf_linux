@@ -2,3 +2,7 @@
 # NETWORK
 
 hostname: "homeserver"
+
+firewall:
+  ports:
+    samba: 445
