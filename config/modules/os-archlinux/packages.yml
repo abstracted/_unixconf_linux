@@ -169,7 +169,6 @@ DE_XFCE:
   # extras
   - xscreensaver
   - mugshot
-  - lightdm-gtk-greeter-settings
   - gvfs
   - gvfs-smb
   # xfce
@@ -184,6 +183,7 @@ DM_LIGHTDM:
   # display manager
   - lightdm
   - lightdm-gtk-greeter
+  - lightdm-gtk-greeter-settings
 
 DM_SDDM:
   # display manager
