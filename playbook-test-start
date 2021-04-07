@@ -1,5 +1,2 @@
 #!/usr/bin/env bash
-./generate-playbook $@ -t
-
-cd playbook
-vagrant up
+./generate-playbook $@ -t && cd playbook && vagrant up
