@@ -276,6 +276,3 @@ packages_blacklist: []
 # Package sets from ./packages.yml
 packages_categories:
   - _CORE
-  - FONTS
-  - SHELL
-  - UTILS
