@@ -11,9 +11,4 @@ plymouth:
 # - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
 
-packages_categories:
-  - AUDIO
-  - DESKTOP_THEME
-  - DESKTOP_UTILS
-  - PRINTER
-  - SHELL_EXTRA
+packages_categories: []
