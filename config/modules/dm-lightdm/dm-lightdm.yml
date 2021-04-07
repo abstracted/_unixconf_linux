@@ -4,6 +4,7 @@
 
 packages_categories:
   - DM_LIGHTDM
+  - DESKTOP_XORG
 
 lightdm_greeter: lightdm-gtk-greeter
 

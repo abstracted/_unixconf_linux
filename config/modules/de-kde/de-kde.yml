@@ -5,6 +5,7 @@
 packages_categories:
   - DE_KDE
   - DESKTOP_QT_APPS
+  - DESKTOP_XORG
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # SERVICES

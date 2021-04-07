@@ -4,6 +4,7 @@
 
 packages_categories:
   - DM_SDDM
+  - DESKTOP_XORG
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # SERVICES
