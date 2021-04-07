@@ -146,6 +146,49 @@ PACKAGE_MANAGERS:
   - snapd
   - flatpak
 
+DE_GNOME:
+  # extras
+  - gnome-tweaks
+  - mousetweaks
+  - gnome-shell-extension-appindicator
+  - gnome-shell-extension-arc-menu
+  - gnome-shell-extension-dash-to-dock
+  - gnome-shell-extension-dash-to-panel
+  - gnome-shell-extension-pop-shell
+  # gnome
+  - gnome
+
+DE_KDE:
+  # extras
+  - plasma-wayland-session
+  - kdeconnect
+  # plasma
+  - plasma
+
+DE_XFCE:
+  # extras
+  - xscreensaver
+  - mugshot
+  - lightdm-gtk-greeter-settings
+  - gvfs
+  - gvfs-smb
+  # xfce
+  - xfce4
+  - xfce4-goodies
+
+DM_GDM:
+  # display manager
+  - gdm
+
+DM_LIGHTDM:
+  # display manager
+  - lightdm
+  - lightdm-gtk-greeter
+
+DM_SDDM:
+  # display manager
+  - sddm-kcm
+
 DESKTOP_XORG:
   - xorg
 
@@ -170,43 +213,6 @@ DESKTOP_UTILS:
   - ranger
   - scrot
   - xdg-user-dirs
-
-DESKTOP_GNOME:
-  # extras
-  - gnome-tweaks
-  - mousetweaks
-  - gnome-shell-extension-appindicator
-  - gnome-shell-extension-arc-menu
-  - gnome-shell-extension-dash-to-dock
-  - gnome-shell-extension-dash-to-panel
-  - gnome-shell-extension-pop-shell
-  # display manager
-  - gdm
-  # gnome
-  - gnome
-
-DESKTOP_KDE:
-  # extras
-  - plasma-wayland-session
-  - kdeconnect
-  # display manager
-  - sddm-kcm
-  # plasma
-  - plasma
-
-DESKTOP_XFCE:
-  # extras
-  - xscreensaver
-  - mugshot
-  - lightdm-gtk-greeter-settings
-  - gvfs
-  - gvfs-smb
-  # display manager
-  - lightdm
-  - lightdm-gtk-greeter
-  # xfce
-  - xfce4
-  - xfce4-goodies
 
 DESKTOP_APPS:
 # audio

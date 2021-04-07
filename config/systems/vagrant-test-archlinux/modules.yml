@@ -1,4 +1,5 @@
 ---
 - vagrant-test
-- desktop-xfce
 - os-archlinux
+- de-xfce
+- dm-lightdm

@@ -3,21 +3,18 @@
 # PACKAGES
 
 packages_categories:
-  - DESKTOP_XFCE
-  - DESKTOP_GTK_APPS
-
-lightdm_greeter: lightdm-gtk-greeter
+  - DM_SDDM
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # SERVICES
 
 services:
-  - name:  sddm.service
-    enabled: no
+  - name:  gdm.service
+    enabled: no 
     state: stopped
   - name:  lightdm.service
-    enabled: yes
-    state: started
-  - name:  gdm.service
     enabled: no
     state: stopped
+  - name:  sddm.service
+    enabled: yes
+    state: started

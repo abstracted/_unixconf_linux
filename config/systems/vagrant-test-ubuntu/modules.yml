@@ -1,4 +1,5 @@
 ---
 - vagrant-test
-- desktop-xfce
 - os-ubuntu
+- de-xfce
+- dm-gdm

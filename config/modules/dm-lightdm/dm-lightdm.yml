@@ -3,8 +3,9 @@
 # PACKAGES
 
 packages_categories:
-  - DESKTOP_GNOME
-  - DESKTOP_GTK_APPS
+  - DM_LIGHTDM
+
+lightdm_greeter: lightdm-gtk-greeter
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # SERVICES
@@ -14,8 +15,8 @@ services:
     enabled: no
     state: stopped
   - name:  lightdm.service
-    enabled: no
-    state: stopped
-  - name:  gdm.service
     enabled: yes
     state: started
+  - name:  gdm.service
+    enabled: no
+    state: stopped

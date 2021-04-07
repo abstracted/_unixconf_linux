@@ -160,6 +160,54 @@ PACKAGE_MANAGERS:
   - snapd
   - flatpak
 
+
+DE_GNOME:
+  # extra
+  - gnome-tweaks
+  - mousetweaks
+  - gnome-shell-extension-appindicator
+  - gnome-shell-extension-arc-menu
+  - gnome-shell-extension-dashtodock
+  - gnome-shell-extension-dash-to-panel
+  # gnome
+  - vanilla-gnome-desktop
+
+DE_KDE:
+  # extra
+  - kdeconnect
+  - kwin-wayland-backend-wayland
+  # plasma
+  - kde-plasma-desktop
+
+DE_XFCE:
+  # extras
+  - xscreensaver
+  - mugshot
+  - gvfs
+  # - gvfs-backend
+  - gvfs-common
+  - gvfs-daemons
+  # display manager
+  - gdm3
+  # xfce
+  - xfce4
+  - xfce4-goodies
+
+DM_GDM:
+  # display manager
+  - gdm3
+
+DM_LIGHTDM:
+  # TODO lightdm setup confusing on ubuntu, requires modification of non-standard files
+  # - lightdm
+  # - lightdm-gtk-greeter-settings
+  # - lightdm-gtk-greeter
+
+DM_SDDM:
+  # display manager
+  - kde-config-sddm
+  - sddm
+
 DESKTOP_XORG:
   - xserver-xorg
 
@@ -182,47 +230,6 @@ DESKTOP_UTILS:
   - ranger
   - scrot
   - xdg-user-dirs
-
-DESKTOP_GNOME:
-  # extra
-  - gnome-tweaks
-  - mousetweaks
-  - gnome-shell-extension-appindicator
-  - gnome-shell-extension-arc-menu
-  - gnome-shell-extension-dashtodock
-  - gnome-shell-extension-dash-to-panel
-  # display manager
-  - gdm3
-  # gnome
-  - vanilla-gnome-desktop
-
-DESKTOP_KDE:
-  # extra
-  - kdeconnect
-  - kwin-wayland-backend-wayland
-  # display manager
-  - kde-config-sddm
-  - sddm
-  # plasma
-  - kde-plasma-desktop
-
-DESKTOP_XFCE:
-  # extras
-  - xscreensaver
-  - mugshot
-  - gvfs
-  # - gvfs-backend
-  - gvfs-common
-  - gvfs-daemons
-  # display manager
-  - gdm3
-  # TODO lightdm setup confusing on ubuntu, requires modification of non-standard files
-  # - lightdm
-  # - lightdm-gtk-greeter-settings
-  # - lightdm-gtk-greeter
-  # xfce
-  - xfce4
-  - xfce4-goodies
 
 DESKTOP_APPS:
 # audio
