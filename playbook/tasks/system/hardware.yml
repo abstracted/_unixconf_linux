@@ -72,8 +72,36 @@
       when: gpu_intel.rc == 0
       become: yes
 
+    - name: Add tearfree setting for Intel GPU Driver
+      lineinfile:
+        create: yes
+        line: >
+          Section "Device"
+              Identifier "Intel Graphics"
+              Driver "intel"
+              Option "TearFree" "true"
+          EndSection
+        path: /etc/X11/xorg.conf.d/20-amdgpu.conf.j2
+        state: present
+      when: gpu_intel.rc == 0
+      become: yes
+
     - name: Install AMD GPU Drivers
       command: mhwd -a pci free 0300
+      when: gpu_amd.rc == 0
+      become: yes
+
+    - name: Add tearfree setting for AMD GPU Driver
+      lineinfile:
+        create: yes
+        line: >
+          Section "Device"
+              Identifier "AMD"
+              Driver "amdgpu"
+              Option "TearFree" "true"
+          EndSection
+        path: /etc/X11/xorg.conf.d/20-intel.conf.j2
+        state: present
       when: gpu_amd.rc == 0
       become: yes
 
