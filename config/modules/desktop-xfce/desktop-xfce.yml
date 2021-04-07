@@ -16,8 +16,8 @@ services:
     enabled: no
     state: stopped
   - name:  lightdm.service
-    enabled: no
-    state: stopped
-  - name:  gdm.service
     enabled: yes
     state: started
+  - name:  gdm.service
+    enabled: no
+    state: stopped
