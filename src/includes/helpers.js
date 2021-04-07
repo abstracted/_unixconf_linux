@@ -56,6 +56,7 @@ function statPath (path) {
 function lsPath (path) {
   try {
     const ls = readdirSync(path)
+      .filter(dir => dir !== '.DS_Store')
 
     return ls
   } catch (error) {
@@ -86,9 +87,60 @@ function parseCommaSeparatedList (list) {
   }
 }
 
+function getPropertyTree(obj, depth = 1, path = '{}') {
+
+  function pushPath(path, key) {
+    return path.concat('.', key)
+  }
+  function popPath(path) {
+    return path.replace(/(.*)\.[^\.]+$/, '$1')
+  }
+  function getMetaObj({ type, valueName, value, depth, path }) {
+    return {  __path: path, __depth: depth, __type: type, [`__${valueName}`]: value }
+  }
+
+  for (let key in obj) {
+    const type = Array.isArray(obj[key]) 
+      ? 'array'
+      : typeof obj[key]
+    
+    path = isNaN(parseInt(key)) ? pushPath(path, key) : path.concat('', '[]')
+
+    if (type !== 'object' && type !== 'array') {
+      obj[key] = getMetaObj({ path, depth, type, valueName: 'example', value: obj[key] })
+    } else if (type === 'object' || type === 'array') {
+      depth += 1
+      
+      obj[key] = getPropertyTree(obj[key], depth, path)
+      
+      depth -= 1
+
+      if (type === 'object') {
+        obj[key] = getMetaObj({ path, depth, type, valueName: 'properties', value: obj[key] })
+        
+      } else if (type === 'array') {
+        obj[key] = obj[key].sort((a, b) => 
+          (a.__type < b.__type && -1) || 
+          (a.__type > b.__type && 1)  || 
+          0
+        ).filter((val, idx, arr) => 
+          idx === 0 || arr[idx - 1].__type !== val.__type
+        )
+
+        obj[key] = getMetaObj({ path, depth, type, valueName: 'items', value: obj[key] })
+      }
+    }
+    
+    path = popPath(path)
+  }
+
+  return obj
+}
+
 module.exports = {
   exec,
   log,
+  getPropertyTree,
   throwError,
   makeDir,
   statPath,

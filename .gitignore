@@ -1,3 +1,4 @@
+**.DS_STORE
 .vagrant
 node_modules
 .idea
@@ -7,6 +8,7 @@ vars
 src/node_modules
 src/.idea
 src/package-lock.json
+src/configTree.yml
 
 playbook/docker-templates/*
 playbook/templates/*

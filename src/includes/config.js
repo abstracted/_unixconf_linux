@@ -14,9 +14,11 @@ const {
 const {
   exec,
   getYaml,
+  lsPath,
   makeDir,
   statPath,
-  writeYaml
+  writeYaml,
+  getPropertyTree
 } = require('./helpers.js')
 
 function arrayCombineMerge (target, source, options) {
@@ -260,7 +262,20 @@ function syncConfig (config) {
   writeYaml(config, `${VARS_PATH}/config.yml`)
 }
 
+function getDefinitionsPropertyTree() {
+  const globalDefinition = getDefinition({ path: GLOBAL_PATH })
+  const moduleDefinitions = lsPath(MODULE_PATH).map(dir => `${MODULE_PATH}/${dir}`).map(path => getDefinition({ path }))
+  const systemDefinitions = lsPath(SYSTEM_PATH).map(dir => `${SYSTEM_PATH}/${dir}`).map(path => getDefinition({ path }))
+
+  const allDefinitions = deepmerge.all([globalDefinition, ...moduleDefinitions, ...systemDefinitions], { arrayMerge: arrayCombineMerge })
+
+  const definitionsPropertyTree = getPropertyTree(allDefinitions)
+  
+  return definitionsPropertyTree
+}
+
 module.exports = {
+  getDefinitionsPropertyTree,
   getGlobalDefinition,
   getSystemDefinition,
   getModuleDefinitions,
