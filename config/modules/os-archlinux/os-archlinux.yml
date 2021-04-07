@@ -101,10 +101,6 @@ services:
   - name: sshguard.service
     enabled: yes
     state: restarted
-  # Samba
-  - name: smb.service
-    enabled: yes
-    state: started
   # SSH
   - name: sshd.service
     enabled: yes
@@ -116,13 +112,6 @@ services:
   - name: cpupower.service
     enabled: yes
     state: started
-  # Bluetooth
-  - name: bluetooth.service
-    enabled: yes
-    state: started
-  - name: rfkill-block@bluetooth.service
-    enabled: no
-    state: stopped
   # Cron
   - name: cronie.service
     enabled: yes

@@ -58,6 +58,12 @@ services:
   - name: dhcpcd.service
     enabled: no
     state: stopped
+  - name: bluetooth.service
+    enabled: yes
+    state: started
+  - name: rfkill-block@bluetooth.service
+    enabled: no
+    state: stopped
   - name: NetworkManager-dispatcher.service
     enabled: yes
     state: started
