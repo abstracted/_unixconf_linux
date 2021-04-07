@@ -3,15 +3,40 @@
   command: "pacman -Sy"
   become: yes
 
+- name: Identify pacman groups in packages
+  raw: "pacman -Sg {{ packages | join(' ') }} 2>&1 | cut -d' ' -f1 | sort | uniq"
+  ignore_errors: yes
+  become: yes
+  register: pacman_groups
+
+- name: Create a list of pacman group packages
+  raw: "pacman -Sg {{ pacman_groups.stdout_lines | join(' ') }} | cut -d' ' -f2 | sort | uniq"
+  ignore_errors: yes
+  become: yes
+  when: pacman_groups | length > 0
+  register: pacman_group_packages
+
+- name: Create a list of already installed pacman group packages
+  raw: "pacman -Qg {{ pacman_groups.stdout_lines | join(' ') }} | cut -d' ' -f2 | sort | uniq"
+  ignore_errors: yes
+  become: yes
+  when: pacman_groups | length > 0
+  register: pacman_group_packages_installed
+
+- name: Create a list of not installed pacman group packages
+  set_fact:
+    pacman_group_packages_not_installed: "{{ pacman_group_packages.stdout_lines | difference(pacman_group_packages_installed.stdout_lines) }}"
+  when: pacman_groups | length > 0
+
+- name: Update packages variable with group packages
+  set_fact:
+    packages: "{{ packages | difference(pacman_groups.stdout_lines) + pacman_group_packages_not_installed }}"
+  when: pacman_groups | length > 0
+
 - name: Create a list of already installed pacman packages
   raw: "pacman -Qq"
   become: yes
   register: pacman_packages_installed
-
-- name: Create a list of already installed pacman groups
-  raw: "pacman -Qg | awk '{print $1}' | uniq"
-  become: yes
-  register: pacman_groups_installed
 
 - name: Create a list of already installed pacman aur packages
   command: "pacman -Qqm"
@@ -23,7 +48,7 @@
   set_fact:
     packages_installed: >
       {{ pacman_packages_installed.stdout_lines + 
-      pacman_groups_installed.stdout_lines + 
+      pacman_group_packages_installed.stdout_lines + 
       pacman_aur_installed.stdout_lines }}
 
 - name: Install base dependencies
