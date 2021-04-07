@@ -1,8 +1,104 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# USERS
+
+users:
+  - tag: users
+    name: rae
+    shell: /usr/bin/zsh
+    groups:
+      - rae
+
+#  - tag: users
+#    name: game
+#    shell: /usr/bin/zsh
+#    groups:
+#      - game
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages_first:
+  - docker
+  - python-docker
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 # NETWORK
 
 hostname: "homeserver"
 
+dhcpcd:
+  static: True
+
+network_conf:
+  ip_address: 192.168.0.169
+  cidr: 24
+  subnet_mask: 255.255.255.0
+  default_gateway: 192.168.0.1
+
 firewall:
   ports:
+    ssh: 8282
     samba: 445
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SERVICES
+
+services:
+  - name: smb.service
+    enabled: yes
+    state: started
+  - name: NetworkManager.service
+    enabled: no
+    state: stopped
+  - name: dhcpcd@eno1.service
+    enabled: yes
+    state: restarted
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# FILESYSTEMS
+
+filesystem_external_opts:
+  - "defaults"
+  - "nofail"
+  - "user_xattr"
+  - "jqfmt=vfsv0"
+  - "acl"
+
+fstab:
+  - src: "/dev/disk/by-label/RAE"
+    path: "/mnt/RAE"
+    fstype: "ext4"
+    state: mounted
+    opts: "{{ filesystem_external_opts }}"
+
+  - src: "/dev/disk/by-label/CAMERON"
+    path: "/mnt/CAMERON"
+    fstype: "ext4"
+    state: mounted
+    opts: "{{ filesystem_external_opts }}"
+    
+# - - - - - - - - - - - - - - - - - - - - - - -
+# CRON
+
+cron:
+  jobs:
+    - name: mirror-github
+      user: cameron
+      state: present
+      minute: "0"
+      hour: "6"
+      day: "*"
+      weekday: "*"
+      month: "*"
+      job: cd /mnt/CAMERON/Development/github-mirror/ && ./mirror.sh
+    # TODO: Gets banned from youtube and can be unweildy
+    # - name: download-music
+    #   user: cameron
+    #   state: present
+    #   minute: "0"
+    #   hour: "8"
+    #   day: "*/4"
+    #   weekday: "*"
+    #   month: "*"
+    #   job: cd /mnt/CAMERON/Music/Downloads/ && ./run
