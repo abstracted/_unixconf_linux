@@ -2,9 +2,6 @@
 # - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
 
-packages_first:
-  - wine-staging
-
 packages_categories:
   - AUDIO
   - DESKTOP_XORG
