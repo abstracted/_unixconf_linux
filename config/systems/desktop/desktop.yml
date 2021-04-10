@@ -19,9 +19,9 @@ packages_categories:
 # - - - - - - - - - - - - - - - - - - - - - - -
 # BOOT
 
-grub:
-  params:
-    - resume=UUID=b1cb35b1-bdf1-4ce1-b0b9-2d43777a58aa
+# grub:
+# params:
+# - resume=UUID=b1cb35b1-bdf1-4ce1-b0b9-2d43777a58aa
 
 filesystem_external_opts:
   - "defaults"
@@ -31,7 +31,7 @@ filesystem_external_opts:
 fstab:
   - src: "/dev/disk/by-label/Storage"
     path: "/mnt/Storage"
-    fstype: "ntfs"
+    fstype: "ext4"
     state: "mounted"
     opts: "{{ filesystem_external_opts }}"
 

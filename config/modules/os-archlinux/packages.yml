@@ -88,7 +88,7 @@ AUDIO:
 
 AUDIO_PRO:    
   - a2jmidid
-  - linvst
+    #- linvst
 
 FONTS:
   - fontconfig
@@ -330,7 +330,7 @@ WINE:
   - protontricks
 
 GAMES:
-  - xboxdrv
+  # - xboxdrv
   - qjoypad
 # steam
   - steam
