@@ -45,7 +45,6 @@ UTILS:
   - youtube-dl
 # hardware
   - htop
-  - glances
   - lshw
   - lsof
 # multimedia
@@ -105,7 +104,6 @@ FONTS:
 PRINTER:
   - cups
   - cups-pdf
-  - epson-inkjet-printer-escpr
   - imagescan-plugin-networkscan
   - imagescan
   - ghostscript
@@ -176,17 +174,14 @@ DE_XFCE:
   - xfce4-goodies
 
 DM_GDM:
-  # display manager
   - gdm
 
 DM_LIGHTDM:
-  # display manager
   - lightdm
   - lightdm-gtk-greeter
   - lightdm-gtk-greeter-settings
 
 DM_SDDM:
-  # display manager
   - sddm-kcm
 
 DESKTOP_XORG:
@@ -197,29 +192,13 @@ DESKTOP_THEME:
   - pop-sound-theme-bin
   - papirus-icon-theme
 
-DESKTOP_WM:
-  - bspwm
-  - sxhkd
-  - dunst
-  - picom-tryone-git
-  - polybar
-  - rofi
-  - lxappearance
-
-DESKTOP_UTILS:
-  - dconf-editor
-  - feh
-  - python-pywal
-  - ranger
-  - scrot
-  - xdg-user-dirs
-
 DESKTOP_APPS:
 # audio
   - pavucontrol
 # browsers
   - chromium
   - firefox
+  - brave-bin
 # creative
   - bitwig-studio
   - blender
@@ -232,19 +211,17 @@ DESKTOP_APPS:
   - code
   - zeal
 # filesystems
-  - woeusb
   - etcher-bin
   - gparted
 # media
   - handbrake
-  - vlc
+  - celluloid
 # network_admin
   - linssid
   - wireshark-qt
   - remmina
 # network_files
   - filezilla
-  - syncthing-gtk
   - youtube-dl-gui-git
 # office
   - foliate
@@ -255,8 +232,6 @@ DESKTOP_APPS:
   - pamac
 # printer
   - system-config-printer
-# social
-  - discord-canary
 # virtualization
   - virtualbox
 
@@ -264,31 +239,31 @@ DESKTOP_GTK_APPS:
   # development
   - guake
   # archive
-  - file-roller # gtk
+  - file-roller
   # creative
-  - pitivi # gtk
+  - pitivi
   - olive
   # filesystems
-  - baobab # gtk
+  - baobab
   # fonts
-  - gnome-font-viewer # gtk
-  - gnome-characters # gtk
+  - gnome-font-viewer
+  - gnome-characters
   # hardware
-  - gnome-logs # gtk
-  - gnome-system-monitor # gtk
-  - sysprof # gnome
+  - gnome-logs
+  - gnome-system-monitor
+  - sysprof
   # media
-  - gnome-screenshot # gtk
-  - gthumb # gtk
-  - quodlibet # gtk
-  - parole # gtk
+  - gnome-screenshot
+  - gthumb
+  - quodlibet
+  - celluloid
   # network_files
-  - transmission-gtk # gtk
+  - transmission-gtk
   # office
-  - gnome-calculator # gtk
-  - evince # gtk
-  - thunderbird # gtk
-  - simple-scan # gtk
+  - gnome-calculator
+  - evince
+  - thunderbird
+  - simple-scan
 
 DESKTOP_QT_APPS:
   # files

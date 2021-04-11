@@ -10,7 +10,7 @@ os_distribution: archlinux
 kernel:
   packages:
     - linux
-    - linux-headers
+    - linux-firmware
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # SUDOERS

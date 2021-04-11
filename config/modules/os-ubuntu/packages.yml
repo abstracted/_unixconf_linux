@@ -53,7 +53,6 @@ UTILS_FILE_TRANSFER:
 
 UTILS_HARDWARE:
   - htop
-  - glances
   - lshw
   - lsof
 
@@ -215,22 +214,6 @@ DESKTOP_THEME:
   - pop-sound-theme-bin
   - papirus-icon-theme
 
-DESKTOP_WM:
-  - bspwm
-  - sxhkd
-  - dunst
-  - picom
-  - polybar
-  - rofi
-  - lxappearance
-
-DESKTOP_UTILS:
-  - dconf-editor
-  - feh
-  - ranger
-  - scrot
-  - xdg-user-dirs
-
 DESKTOP_APPS:
 # audio
   - pavucontrol
@@ -255,7 +238,7 @@ DESKTOP_APPS:
   - gparted
 # media
   - handbrake
-  - vlc
+  - celluloid
 # network_admin
   - linssid
   - wireshark-qt
@@ -270,8 +253,6 @@ DESKTOP_APPS:
   - typora
 # printer
   - system-config-printer
-# social
-  - discord # probably going to need to install a snap / flatpak
 # virtualization
   - virtualbox
 
@@ -279,31 +260,30 @@ DESKTOP_GTK_APPS:
   # development
   - guake
   # archive
-  - file-roller # gtk
+  - file-roller
   # creative
-  - pitivi # gtk
+  - pitivi
   - olive-editor
   # filesystems
-  - baobab # gtk
+  - baobab
   # fonts
-  - gnome-font-viewer # gtk
-  - gnome-characters # gtk
+  - gnome-font-viewer
+  - gnome-characters
   # hardware
-  - gnome-logs # gtk
-  - gnome-system-monitor # gtk
+  - gnome-logs
+  - gnome-system-monitor
   - sysprof # gnome
   # media
-  - gnome-screenshot # gtk
-  - gthumb # gtk
-  - quodlibet # gtk
-  - parole # gtk
+  - gnome-screenshot
+  - gthumb
+  - quodlibet
   # network_files
-  - transmission-gtk # gtk
+  - transmission-gtk
   # office
-  - gnome-calculator # gtk
-  - evince # gtk
-  - thunderbird # gtk
-  - simple-scan # gtk
+  - gnome-calculator
+  - evince
+  - thunderbird
+  - simple-scan
 
 DESKTOP_QT_APPS:
   # files

@@ -1,5 +1,5 @@
 ---
 - os-archlinux
 - workstation
-- de-kde
-- dm-sddm
+- de-gnome
+- dm-gdm
