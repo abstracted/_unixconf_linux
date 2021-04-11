@@ -81,7 +81,7 @@
       when: gpu_intel.rc == 0
       become: yes
 
-      - name: Add tearfree setting for AMD GPU Driver
+    - name: Add tearfree setting for AMD GPU Driver
       lineinfile:
         create: yes
         line: >
