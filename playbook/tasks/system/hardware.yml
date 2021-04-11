@@ -65,13 +65,8 @@
   when: os_distribution == 'archlinux' or 
         os_distribution == 'ubuntu'
 
-- name: Install GPU drviers
+- name: Add tearfree setting for GPU Driver
   block:
-    - name: Install Intel GPU Drivers
-      command: mhwd -a pci free 0300
-      when: gpu_intel.rc == 0
-      become: yes
-
     - name: Add tearfree setting for Intel GPU Driver
       lineinfile:
         create: yes
@@ -86,12 +81,7 @@
       when: gpu_intel.rc == 0
       become: yes
 
-    - name: Install AMD GPU Drivers
-      command: mhwd -a pci free 0300
-      when: gpu_amd.rc == 0
-      become: yes
-
-    - name: Add tearfree setting for AMD GPU Driver
+      - name: Add tearfree setting for AMD GPU Driver
       lineinfile:
         create: yes
         line: >
@@ -104,12 +94,6 @@
         state: present
       when: gpu_amd.rc == 0
       become: yes
-
-    - name: Install NVidia GPU Drivers
-      command: mhwd -a pci nonfree 0300
-      when: gpu_nvidia.rc == 0
-      become: yes
-  when: os_distribution == 'manjaro'
 
 - name: Install CPU drviers
   block:

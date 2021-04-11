@@ -31,7 +31,7 @@ VCSCLIENTS=('bzr::bzr'
 #########################################################################
 # ARCHITECTURE, COMPILE FLAGS
 #########################################################################
-{% if (os_distribution == 'archlinux' or os_distribution == 'manjaro') and os_arch == 'x86-64' %}
+{% if (os_distribution == 'archlinux') and os_arch == 'x86-64' %}
 #
 CARCH="x86_64"
 CHOST="x86_64-pc-linux-gnu"
@@ -57,24 +57,6 @@ CHOST="armv7l-unknown-linux-gnueabihf"
 CPPFLAGS="-D_FORTIFY_SOURCE=2"
 CFLAGS="-march=armv7-a -mfloat-abi=hard -mfpu=vfpv3-d16 -O2 -pipe -fstack-protector-strong -fno-plt"
 CXXFLAGS="-march=armv7-a -mfloat-abi=hard -mfpu=vfpv3-d16 -O2 -pipe -fstack-protector-strong -fno-plt"
-LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
-#-- Make Flags: change this for DistCC/SMP systems
-#MAKEFLAGS="-j2"
-#-- Debugging flags
-DEBUG_CFLAGS="-g -fvar-tracking-assignments"
-DEBUG_CXXFLAGS="-g -fvar-tracking-assignments"
-{% endif %}
-
-{% if os_distribution == 'manjaro' and os_arch == 'arm' %}
-#
-CARCH="aarch64"
-CHOST="aarch64-unknown-linux-gnu"
-#-- Compiler and Linker Flags
-# -march (or -mcpu) builds exclusively for an architecture
-# -mtune optimizes for an architecture, but builds for whole processor family
-CPPFLAGS="-D_FORTIFY_SOURCE=2"
-CFLAGS="-march=armv8-a -O2 -pipe -fstack-protector-strong -fno-plt"
-CXXFLAGS="-march=armv8-a -O2 -pipe -fstack-protector-strong -fno-plt"
 LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
 #-- Make Flags: change this for DistCC/SMP systems
 #MAKEFLAGS="-j2"

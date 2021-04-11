@@ -6,9 +6,6 @@ Architecture = auto
 {% if os_distribution == 'archlinux' and os_arch == 'arm' %}
 Architecture = armv7h
 {% endif %}
-{% if os_distribution == 'manjaro' and os_arch == 'arm' %}
-Architecture = aarch64
-{% endif %}
 
 HoldPkg = pacman glibc
 HookDir = /etc/pacman.d/hooks/
@@ -21,7 +18,7 @@ ILoveCandy
 TotalDownload
 VerbosePkgLists
 
-{% if (os_distribution == 'archlinux' or os_distribution == 'manjaro') and os_arch == 'x86-64' %}
+{% if (os_distribution == 'archlinux') and os_arch == 'x86-64' %}
 [core]
 Include = /etc/pacman.d/mirrorlist
 
@@ -49,17 +46,4 @@ Include = /etc/pacman.d/mirrorlist
 
 [aur]
 Include = /etc/pacman.d/mirrorlist
-{% endif %}
-{% if os_distribution == 'manjaro' and os_arch == 'arm' %}
-[core]
-#Include = /etc/pacman.d/mirrorlist
-Server = http://mirrors.dotsrc.org/manjaro-arm/stable/$arch/$repo
-
-[extra]
-#Include = /etc/pacman.d/mirrorlist
-Server = http://mirrors.dotsrc.org/manjaro-arm/stable/$arch/$repo
-
-[community]
-#Include = /etc/pacman.d/mirrorlist
-Server = http://mirrors.dotsrc.org/manjaro-arm/stable/$arch/$repo
 {% endif %}
