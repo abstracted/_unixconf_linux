@@ -1,4 +1,5 @@
 ---
+# TODO: Fix Grub install
 # TODO: add equivalent of set mkinitcpio for other OS
 # Ubuntu https://manpages.ubuntu.com/manpages/xenial/man8/initramfs-tools.8.html
 
