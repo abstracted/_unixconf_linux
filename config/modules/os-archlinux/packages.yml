@@ -231,8 +231,6 @@ DESKTOP_APPS:
   - libreoffice-fresh
   - marktext-bin
   - xmind-2020
-# package_managers
-  - pamac
 # printer
   - system-config-printer
 # virtualization
