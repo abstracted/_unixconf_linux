@@ -65,6 +65,7 @@ UTILS:
   - whois
 
 DEVELOPMENT:
+  - vim
   - neovim
   - nvm
   - robo3t-bin
@@ -72,12 +73,13 @@ DEVELOPMENT:
   - insomnia-bin
   - python
   - python-pip
+  - nodejs
+  - npm
 
 VIRTUALIZATION:
   - docker
   - python-docker
   - vagrant
-  - packer
 
 AUDIO:
   - alsa-plugins
@@ -228,6 +230,7 @@ DESKTOP_APPS:
   - protonmail-bridge
   - libreoffice-fresh
   - marktext-bin
+  - xmind-2020
 # package_managers
   - pamac
 # printer
