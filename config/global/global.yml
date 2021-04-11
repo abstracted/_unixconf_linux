@@ -14,7 +14,7 @@ users:
     fullname: "Cameron Sanders"
     email: csanders@protonmail.com
     shell: /usr/bin/zsh
-    dotfiles: https://github.com/abstracted/_unixconf_dotfiles.git
+    dotfiles: https://github.com/computercam/_unixconf_dotfiles.git
     gnupg: 
       agent_browser_socket: True
       agent_socket: True
