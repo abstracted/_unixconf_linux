@@ -172,11 +172,11 @@ audio:
   sample_rate: 44100
   
 jack:
-  device: none
+  device: "hw:0"
   capture: none
   playback: none
   periods: 2
-  frames: 1024
+  frames: 2048
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # VIDEO

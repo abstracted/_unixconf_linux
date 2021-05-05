@@ -1,0 +1,47 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+packages_remove:
+  - jack
+  - wine
+
+packages_categories:
+  - AUDIO
+  - AUDIO_PRO
+  - WINE
+
+
+#- - - - - - - - - - - - - - - - - - - - - - -
+# AUDIO
+
+audio:
+  sample_format: s24-32le
+  sample_rate: 44100
+  
+jack:
+  device: "hw:0"
+  capture: none
+  playback: none
+  periods: 2
+  frames: 2048
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# LIMITS
+
+limits_conf:
+  - domain: "@realtime"
+    type: "-"
+    item: memlock
+    value: unlimited
+  - domain: "@realtime"
+    type: "-"
+    item: rtprio
+    value: 99
+  - domain: "@realtime"
+    type: soft
+    item: nofile
+    value: 99999
+  - domain: "@realtime"
+    type: hard
+    item: nofile
+    value: 99999

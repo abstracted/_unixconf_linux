@@ -27,27 +27,6 @@ kernel:
     - kvm
 
 # - - - - - - - - - - - - - - - - - - - - - - -
-# LIMITS
-
-limits_conf:
-  - domain: "@realtime"
-    type: "-"
-    item: memlock
-    value: unlimited
-  - domain: "@realtime"
-    type: "-"
-    item: rtprio
-    value: 99
-  - domain: "@realtime"
-    type: soft
-    item: nofile
-    value: 99999
-  - domain: "@realtime"
-    type: hard
-    item: nofile
-    value: 99999
-
-# - - - - - - - - - - - - - - - - - - - - - - -
 # SERVICES
 
 services:

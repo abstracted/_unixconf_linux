@@ -87,9 +87,22 @@ AUDIO:
   - pulseaudio
   - pulseaudio-bluetooth
 
-AUDIO_PRO:    
-  - a2jmidid
-    #- linvst
+AUDIO_PRO:
+  - alsa-plugins
+  # - a2jmidid
+  # - airwave-git
+  - bitwig-studio
+  - cadence
+  - carla
+  - jack2
+  - jack2-dbus
+  # broken, install manually or fix upstream
+  # - linvst-bin
+  # - linvst-x-bin
+  - linvst3-bin
+  - linvst3-x-bin
+  - linvstmanager-git 
+  - pulseaudio-jack
 
 FONTS:
   - fontconfig
@@ -191,7 +204,6 @@ DESKTOP_XORG:
 
 DESKTOP_THEME:
   - bibata-cursor-theme
-  - pop-sound-theme-bin
   - papirus-icon-theme
 
 DESKTOP_APPS:
