@@ -19,7 +19,7 @@ audio:
   sample_rate: 44100
   
 jack:
-  device: "hw:0"
+  device: "hw:Generic"
   capture: none
   playback: none
   periods: 2
