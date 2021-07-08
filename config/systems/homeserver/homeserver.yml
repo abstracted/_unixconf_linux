@@ -8,17 +8,11 @@ users:
     shell: /usr/bin/zsh
     groups:
       - rae
-
-#  - tag: users
-#    name: game
-#    shell: /usr/bin/zsh
-#    groups:
-#      - game
-
-# - - - - - - - - - - - - - - - - - - - - - - -
-# BOOT
-docker:
-  storage_root: /mnt/CAMERON/Server
+  - tag: users
+    name: game
+    shell: /usr/bin/zsh
+    groups:
+      - game
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # BOOT

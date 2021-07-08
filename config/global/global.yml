@@ -198,7 +198,7 @@ docker:
   storage_driver: overlay2
   storage_root: /var/lib/docker
   network:
-    dockernet:
+    dockernet: 
       name: dockernet
       driver: bridge
     default: # these are for the default docker "bridge" network
