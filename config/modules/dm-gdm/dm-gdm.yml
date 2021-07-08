@@ -1,0 +1,21 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages_categories:
+  - DM_GDM
+  - DESKTOP_XORG
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SERVICES
+
+services:
+  - name:  sddm.service
+    enabled: no
+    state: stopped
+  - name:  lightdm.service
+    enabled: no
+    state: stopped
+  - name:  gdm.service
+    enabled: yes
+    state: started

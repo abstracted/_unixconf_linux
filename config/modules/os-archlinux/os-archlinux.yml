@@ -1,0 +1,186 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SYSTEM
+
+os_distribution: archlinux
+
+#- - - - - - - - - - - - - - - - - - - - - - -
+# KERNEL
+
+kernel:
+  packages:
+    - linux
+    - linux-firmware
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SUDOERS
+
+sudo:
+  nopasswd:
+    - name: "%wheel"
+      commands:
+        - /usr/bin/makepkg
+        - /usr/bin/pacman
+        - /usr/bin/yay
+    - name: yay
+      commands:
+        - /usr/bin/makepkg
+        - /usr/bin/pacman
+        - /usr/bin/yay
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# I18N & TIME
+
+timesyncd:
+  ntp_servers:
+    - 0.arch.pool.ntp.org 
+    - 1.arch.pool.ntp.org 
+    - 2.arch.pool.ntp.org 
+    - 3.arch.pool.ntp.org
+  ntp_servers_fallback:
+    - 0.pool.ntp.org 
+    - 1.pool.ntp.org 
+    - 0.fr.pool.ntp.org
+  root_distance_max_sec: 5
+  poll_interval_min_sec: 32
+  poll_interval_max_sec: 2048
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# VIDEO DRIVERS
+
+video:
+  drivers:
+    intel:
+      - lib32-mesa
+      - lib32-vulkan-icd-loader
+      - lib32-vulkan-intel
+      - vulkan-icd-loader
+      - vulkan-intel
+      - vulkan-intel
+      - xf86-video-intel
+    nvidia:
+      - nvidia-lts
+      - nvidia-utils
+      - lib32-nvidia-utils
+      - nvidia-settings
+      - vulkan-icd-loader
+      - lib32-vulkan-icd-loader
+    amd:
+      - lib32-mesa
+      - lib32-vulkan-icd-loader
+      - lib32-vulkan-radeon
+      - vulkan-icd-loader
+      - vulkan-radeon
+      - xf86-video-amdgpu
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# CPU
+
+cpu:
+  microcode:
+    intel: intel-ucode
+    amd: amd-ucode
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# NETWORK
+
+hostname: "archlinux"
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SERVICES
+
+# Services are configured in the order in which they are listed here.
+services:
+  # Firewall
+  - name: iptables.service
+    enabled: yes
+    state: restarted
+  - name: ip6tables.service
+    enabled: no
+    state: stopped
+  - name: sshguard.service
+    enabled: yes
+    state: restarted
+  # SSH
+  - name: sshd.service
+    enabled: yes
+    state: started
+  # Hardware
+  - name: acpid
+    enabled: yes
+    state: started
+  - name: cpupower.service
+    enabled: yes
+    state: started
+  # Cron
+  - name: cronie.service
+    enabled: yes
+    state: started
+  # Pacman
+  - name: mirrorlist-update.timer
+    enabled: yes
+    state: started
+  - name: paccache.timer
+    enabled: yes
+    state: started
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+# Dependencies to install before running the ansible playbook
+# These packages can only be from the main arch repos
+packages_initial_dependencies:
+   - autoconf
+   - automake
+   - base-devel
+   - binutils
+   - binutils
+   - bison
+   - fakeroot
+   - file
+   - findutils
+   - flex
+   - gawk
+   - gcc
+   - gettext
+   - git
+   - grep
+   - groff
+   - gzip
+   - libtool
+   - m4
+   - make
+   - openssh
+   - pacman
+   - patch
+   - pkgconf
+   - python-jmespath
+   - python-typer
+   - python2
+   - sed
+   - stow
+   - sudo
+   - texinfo
+   - which
+
+packages_first:
+  - reflector
+
+# Packages to remove before installing or updating other packages
+packages_remove: []
+
+# Packages which should never be installed. Used to blacklist packages from groups.
+packages_blacklist: [] 
+
+# Specify known hosts for pacman / yay
+packages_ssh_known_hosts: []
+  # - "|1|REx/t/at9hf5s3fs6wWE9jqDpzQ=|h19BNpNqbsF4OW4lvseOGK/0qcE= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOZAVWmj2k+dHTfyum7FyIivGcVUkDFHaXmPNxDwF7l8TvkAN8VDQJHEEGJhALMYtNsQ+kt0gksSh4HZqj9n5hI="
+  # - "|1|5UneA1GhAjeRXsbgcKcv+61zpn0=|cb3DK1OecmD+Y5mFPqdx5V80+xs= ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM2DCBtPSTwWvBU3/3bAYwJVtnAmy+GEJf98Ek5QhOXh"
+
+# pacman-key --recv-keys will be ran against the items in the list
+packages_key_ids: []
+  # - 50AAD02AEB1F61C9
+
+# pacman-key --add will be ran against the items in the list
+packages_key_files: []
+  # - http://dl.foo.com/keyfile.key

@@ -1,0 +1,25 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages_categories:
+  - DE_KDE
+  - DESKTOP_QT_APPS
+  - DESKTOP_XORG
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SERVICES
+
+services:
+  - name:  gdm.service
+    enabled: no 
+    state: stopped
+  - name:  lightdm.service
+    enabled: no
+    state: stopped
+  - name:  sddm.service
+    enabled: yes
+    state: started
+
+packages_blacklist:
+  - discover-snap

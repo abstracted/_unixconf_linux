@@ -1,0 +1,37 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# NETWORK
+
+hostname: "workstation"
+
+firewall:
+  ports:
+    protonimap: 1143
+    protonsmtp: 1025
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages_categories:
+  - AUDIO_PRO
+  - GAMES
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# BOOT
+
+# grub:
+# params:
+# - resume=UUID=b1cb35b1-bdf1-4ce1-b0b9-2d43777a58aa
+
+filesystem_external_opts:
+  - "defaults"
+  - "nofail"
+  - "noatime"
+
+fstab:
+  - src: "/dev/disk/by-label/Storage"
+    path: "/mnt/Storage"
+    fstype: "ext4"
+    state: "mounted"
+    opts: "{{ filesystem_external_opts }}"
+

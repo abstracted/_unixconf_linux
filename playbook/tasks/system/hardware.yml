@@ -1,0 +1,130 @@
+---
+- name: Check hardware specifications
+  block:
+    - name: Check for Intel GPU
+      raw: 'lspci | grep -i vga | grep -i intel'
+      ignore_errors: yes
+      register: gpu_intel
+
+    - name: Check for AMD GPU
+      raw: 'lspci | grep -i vga | grep -Ei "\Wamd|\Wati|advanced micro devices|radeon"'
+      ignore_errors: yes
+      register: gpu_amd
+
+    - name: Check for NVidia GPU
+      raw: 'lspci | grep -i vga | grep -Ei "\Wnvidia|\Wgeforce"'
+      ignore_errors: yes
+      register: gpu_nvidia
+
+    - name: Check for Intel CPU
+      raw: 'cat /proc/cpuinfo | grep vendor_id | grep -Ei "GenuineIntel|intel"'
+      ignore_errors: yes
+      register: cpu_intel
+    
+    - name: Check for AMD CPU
+      raw: 'cat /proc/cpuinfo | grep vendor_id | grep -Ei "AuthenticAMD|amd"'
+      ignore_errors: yes
+      register: cpu_amd
+
+    - name: Check for SSD Trim Support
+      raw: 'hdparm -I /dev/sda | grep -i trim'
+      ignore_errors: yes
+      register: ssd_trim
+
+- name: Install GPU drviers
+  block:
+    - name: Install Intel GPU Drivers
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ video.drivers.intel }}"
+      become: yes
+      when: >
+        gpu_intel.rc == 0 and
+        item not in packages_installed
+
+    - name: Install AMD GPU Drivers
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ video.drivers.amd }}"
+      become: yes
+      when: >
+        gpu_amd.rc == 0 and
+        item not in packages_installed
+
+    - name: Install NVidia GPU Drivers
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ video.drivers.nvidia }}"
+      become: yes
+      when: >
+        gpu_nvidia.rc == 0 and
+        item not in packages_installed
+  when: os_distribution == 'archlinux' or 
+        os_distribution == 'ubuntu'
+
+- name: Add tearfree setting for GPU Driver
+  block:
+    - name: Add tearfree setting for Intel GPU Driver
+      lineinfile:
+        create: yes
+        line: >
+          Section "Device"
+              Identifier "Intel Graphics"
+              Driver "intel"
+              Option "TearFree" "true"
+          EndSection
+        path: /etc/X11/xorg.conf.d/20-amdgpu.conf.j2
+        state: present
+      when: gpu_intel.rc == 0
+      become: yes
+
+    - name: Add tearfree setting for AMD GPU Driver
+      lineinfile:
+        create: yes
+        line: >
+          Section "Device"
+              Identifier "AMD"
+              Driver "amdgpu"
+              Option "TearFree" "true"
+          EndSection
+        path: /etc/X11/xorg.conf.d/20-intel.conf.j2
+        state: present
+      when: gpu_amd.rc == 0
+      become: yes
+
+- name: Install CPU drviers
+  block:
+    - name: Install Intel Microcode
+      package:
+        name: "{{ cpu.microcode.intel }}"
+        state: present
+      become: yes
+      when: >
+        cpu_intel.rc == 0 and
+        cpu.microcode.intel not in packages_installed
+    
+    - name: Install AMD Microcode
+      package:
+        name: "{{ cpu.microcode.amd }}"
+        state: present
+      become: yes
+      when: >
+        cpu_amd.rc == 0 and
+        cpu.microcode.amd not in packages_installed
+
+- name: Configure SSD Enhancements
+  block:
+    - name: Enable FS Trim timer
+      service:
+        name: fstrim.timer
+        enabled: true
+        state: started
+      when: ssd_trim.rc == 0
+
+- name: notify rebuild grub
+  command: echo "rebuild grub"
+  when: grub.enabled == True
+  notify: rebuild grub

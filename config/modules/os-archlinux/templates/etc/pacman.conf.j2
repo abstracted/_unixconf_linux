@@ -1,0 +1,49 @@
+
+[options]
+{% if os_distribution == 'archlinux' %}
+Architecture = auto
+{% endif %}
+{% if os_distribution == 'archlinux' and os_arch == 'arm' %}
+Architecture = armv7h
+{% endif %}
+
+HoldPkg = pacman glibc
+HookDir = /etc/pacman.d/hooks/
+LocalFileSigLevel = Optional
+SigLevel = Required DatabaseOptional
+
+CheckSpace
+Color
+ILoveCandy
+TotalDownload
+VerbosePkgLists
+
+{% if (os_distribution == 'archlinux') and os_arch == 'x86-64' %}
+[core]
+Include = /etc/pacman.d/mirrorlist
+
+[extra]
+Include = /etc/pacman.d/mirrorlist
+
+[community]
+Include = /etc/pacman.d/mirrorlist
+
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+{% endif %}
+{% if os_distribution == 'archlinux' and os_arch == 'arm' %}
+[core]
+Include = /etc/pacman.d/mirrorlist
+
+[extra]
+Include = /etc/pacman.d/mirrorlist
+
+[community]
+Include = /etc/pacman.d/mirrorlist
+
+[alarm]
+Include = /etc/pacman.d/mirrorlist
+
+[aur]
+Include = /etc/pacman.d/mirrorlist
+{% endif %}

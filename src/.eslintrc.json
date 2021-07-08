@@ -1,0 +1,9 @@
+{
+  "extends": "standard",
+  "rules": {
+    "no-undef": "warn",
+    "object-curly-spacing": ["error", "always"],
+    "array-bracket-spacing": ["error", "always"],
+    "no-multiple-empty-lines": ["error", { "max": 2 }]
+  }
+}

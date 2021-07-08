@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd playbook
+vagrant ssh

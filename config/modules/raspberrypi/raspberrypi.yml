@@ -1,0 +1,14 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# BOOT
+
+grub:
+  enabled: False
+
+plymouth:
+  enabled: False
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages_categories: []

@@ -1,0 +1,7 @@
+---
+- dnscrypt-proxy
+- docker-nextcloud
+- docker-portainer
+- docker-swag
+- homeserver
+- os-ubuntu

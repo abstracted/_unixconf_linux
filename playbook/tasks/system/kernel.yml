@@ -1,0 +1,43 @@
+---
+- name: Install kernel packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ kernel.packages }}"
+  become: yes
+  when: item not in packages_installed
+
+- name: Get list of loaded kernel modules
+  raw: 'cat /proc/modules  | cut -d" " -f1'
+  register: loaded_kernel_modules
+
+- name: Load kernel modules specified in kernel.modules
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ kernel.modules }}"
+  when: >
+    kernel.modules is defined and 
+    kernel.modules | length > 0 and
+    item not in loaded_kernel_modules.stdout_lines
+  ignore_errors: yes
+  become: yes
+
+- name: Set Sysctl key value pairs specified in kernel.sysctl
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+  with_items: "{{ kernel.sysctl }}"
+  when: kernel.sysctl is defined and kernel.sysctl | length > 0
+  ignore_errors: yes
+  become: yes
+
+- name: reload sysctl
+  command: sysctl --system
+  become: yes
+
+- name: notify rebuild grub
+  command: echo "rebuild grub"
+  when: grub.enabled == True
+  notify: rebuild grub

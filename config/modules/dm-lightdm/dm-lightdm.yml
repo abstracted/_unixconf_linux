@@ -1,0 +1,23 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages_categories:
+  - DM_LIGHTDM
+  - DESKTOP_XORG
+
+lightdm_greeter: lightdm-gtk-greeter
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SERVICES
+
+services:
+  - name:  sddm.service
+    enabled: no
+    state: stopped
+  - name:  lightdm.service
+    enabled: yes
+    state: started
+  - name:  gdm.service
+    enabled: no
+    state: stopped

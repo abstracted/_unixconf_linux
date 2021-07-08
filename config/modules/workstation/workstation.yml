@@ -1,0 +1,58 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages_categories:
+  - FONTS
+  - AUDIO
+  - DESKTOP_APPS
+  - DESKTOP_THEME
+  - DESKTOP_XORG
+  - DEVELOPMENT
+  - PACKAGE_MANAGERS
+  - PHONE
+  - PRINTER
+  - SHELL
+  - SHELL_EXTRA
+  - UTILS
+  - VIRTUALIZATION
+  - WINE
+
+#- - - - - - - - - - - - - - - - - - - - - - -
+# KERNEL
+
+kernel:
+  modules:
+    - ahci
+    - kvm
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SERVICES
+
+services:
+  - name: cups.service
+    enabled: yes
+    state: started
+  - name: dhcpcd.service
+    enabled: no
+    state: stopped
+  - name: bluetooth.service
+    enabled: yes
+    state: started
+  - name: rfkill-block@bluetooth.service
+    enabled: no
+    state: stopped
+  - name: NetworkManager-dispatcher.service
+    enabled: yes
+    state: started
+  - name: NetworkManager.service
+    enabled: yes
+    state: started
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# BOOT
+
+grub:
+  enabled: True
+  params:
+    - quiet

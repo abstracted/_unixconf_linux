@@ -1,3 +1,4 @@
+# TODO: NOTE: This documentation is deprecated, will produce new documentation once api is finalized.
 # Easy Archlinux Configurator
 
 Easy Archlinux Configurator is an [Ansible][1] playbook meant to provision an

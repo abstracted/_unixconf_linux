@@ -1,0 +1,35 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# USERS
+
+users:
+  - tag: users
+    name: rae
+    shell: /usr/bin/zsh
+    groups:
+      - rae
+  - tag: users
+    name: game
+    shell: /usr/bin/zsh
+    groups:
+      - game
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# NETWORK
+
+hostname: "gamestation"
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages_categories:
+  - AUDIO_PRO
+  - GAMES
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# BOOT
+
+filesystem_external_opts:
+  - "defaults"
+  - "nofail"
+  - "noatime"

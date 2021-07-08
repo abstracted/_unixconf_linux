@@ -1,0 +1,343 @@
+---
+_CORE:
+  - acl
+  - acpid
+  - cpufrequtils
+  - cron
+  - dhcpcd-common
+  - dhcpcd5
+  - git
+  - gnupg
+  - iptables-persistent
+  - linux-tools-common
+  - man-db
+  - netfilter-persistent
+  - network-manager
+  - openssh-client
+  - openssh-server 
+  - sshguard
+  - stow
+  - sudo
+  - apt-transport-https
+
+UTILS_GENERIC:
+  - coreutils
+  - moreutils
+  - dateutils
+
+UTILS_ARCHIVE:
+  - bzip2
+  - gzip
+  - p7zip-full
+  - unrar
+  - unzip
+  - zip
+
+UTILS_DOCS:
+  - pandoc
+
+UTILS_FILE_SYSTEMS:
+  - exfat-utils
+  - ext4magic
+  - fuse
+  - ntfs-3g
+  - parted
+
+UTILS_FILE_TRANSFER:
+  - curl
+  - lftp
+  - rsync
+  - wget
+  - youtube-dl
+  - samba
+
+UTILS_HARDWARE:
+  - htop
+  - lshw
+  - lsof
+
+UTILS_MULTIMEDIA:
+  - ffmpeg
+  - graphicsmagick
+  - imagemagick
+  
+UTILS_NETWORK:
+  - dnsutils
+  - iproute2
+  - net-tools
+  - nmap
+  - openvpn
+  - protonvpn-cli
+  - speedtest-cli
+  - traceroute
+  - whois
+
+DEVELOPMENT:
+  # javascript
+  - nodejs
+  - npm
+  # c++
+  - cmake
+  - gcc
+  - make
+  - extra-cmake-modules
+  # rust
+  - rustc
+  - cargo
+  # python
+  - python3
+  - python3-pip
+  # mongo
+  - mongodb-org
+  # sql
+  - mariadb-client
+  - mariadb-common
+  - mariadb-server
+
+VIRTUALIZATION:
+  - docker
+  - docker-compose
+  - vagrant
+  - packer
+
+AUDIO:
+  - alsa-utils
+  - libasound2-plugins
+  - libasound2-plugins-extra
+  - pulseaudio
+  - bluetooth
+
+AUDIO_PRO:
+  - a2jmidid
+
+FONTS:
+ - fontconfig
+ - fontconfig-config
+ - gsfonts
+ - fonts-inter
+ - fonts-fantasque-sans
+ - fonts-firacode
+ - fonts-texgyre
+ - ttf-mscorefonts-installer
+
+PRINTER:
+  - cups
+  - printer-driver-cups-pdf
+  - printer-driver-escpr
+  - printer-driver-gutenprint
+  - simple-scan
+  - ghostscript
+
+PHONE:
+  - ifuse
+  - libimobiledevice6
+  - libimobiledevice-utils
+
+SHELL:
+  # terminal
+  - kitty
+  # zsh
+  - zsh
+  - zsh-autosuggestions
+  - zsh-common
+  - zsh-syntax-highlighting
+  # shell extensions
+  - neofetch
+  # - exa
+  - w3m
+
+SHELL_EXTRA:
+  - cava
+  - cowsay
+  - figlet
+  - figlet-fonts
+  - toilet
+  - toilet-fonts
+  - cmatrix
+
+PACKAGE_MANAGERS:
+  - snapd
+  - flatpak
+
+
+DE_GNOME:
+  # extra
+  - gnome-tweaks
+  - mousetweaks
+  - gnome-shell-extension-appindicator
+  - gnome-shell-extension-arc-menu
+  - gnome-shell-extension-dashtodock
+  - gnome-shell-extension-dash-to-panel
+  # gnome
+  - vanilla-gnome-desktop
+
+DE_KDE:
+  # extra
+  - kdeconnect
+  - kwin-wayland-backend-wayland
+  # plasma
+  - kde-plasma-desktop
+
+DE_XFCE:
+  # extras
+  - xscreensaver
+  - mugshot
+  - gvfs
+  # - gvfs-backend
+  - gvfs-common
+  - gvfs-daemons
+  # display manager
+  - gdm3
+  # xfce
+  - xfce4
+  - xfce4-goodies
+
+DM_GDM:
+  # display manager
+  - gdm3
+
+DM_LIGHTDM:
+  # TODO lightdm setup confusing on ubuntu, requires modification of non-standard files
+  # - lightdm
+  # - lightdm-gtk-greeter-settings
+  # - lightdm-gtk-greeter
+
+DM_SDDM:
+  # display manager
+  - kde-config-sddm
+  - sddm
+
+DESKTOP_XORG:
+  - xserver-xorg
+
+DESKTOP_THEME:
+  - pop-sound-theme-bin
+  - papirus-icon-theme
+
+DESKTOP_APPS:
+# audio
+  - pavucontrol
+# browsers
+  - brave-browser
+  - chromium-browser
+  - firefox
+# creative
+  # - bitwig-studio # needs to be installed manually via deb file
+  - blender
+  - gimp
+  - inkscape
+  - musescore3
+  - obs-studio
+  - screenkey
+# dev
+  - code
+  - zeal
+# filesystems
+  - woeusb
+  - balena-etcher-electron
+  - gparted
+# media
+  - handbrake
+  - celluloid
+# network_admin
+  - linssid
+  - wireshark-qt
+  - remmina
+# network_files
+  - filezilla
+  - youtube-dlg
+# office
+  - foliate
+  # - protonmail-bridge # probably complicated as fuck to install with apt
+  - libreoffice
+  - typora
+# printer
+  - system-config-printer
+# virtualization
+  - virtualbox
+
+DESKTOP_GTK_APPS:
+  # development
+  - guake
+  # archive
+  - file-roller
+  # creative
+  - pitivi
+  - olive-editor
+  # filesystems
+  - baobab
+  # fonts
+  - gnome-font-viewer
+  - gnome-characters
+  # hardware
+  - gnome-logs
+  - gnome-system-monitor
+  - sysprof # gnome
+  # media
+  - gnome-screenshot
+  - gthumb
+  - quodlibet
+  # network_files
+  - transmission-gtk
+  # office
+  - gnome-calculator
+  - evince
+  - thunderbird
+  - simple-scan
+
+DESKTOP_QT_APPS:
+  # files
+  - dolphin
+  - dolphin-plugins
+  - ark
+  # system utils
+  - kde-config-cron
+  - qdirstat
+  - ksystemlog
+  - kfind  
+  # development
+  - kompare
+  - kate
+  - yakuake
+  - konsole
+  # creative
+  - kwave
+  - kolourpaint
+  - kdenlive
+  # network_files
+  - kget
+  - qbittorrent
+  # office
+  - kcalc
+  - kmail
+  - kalarm
+  - korganizer
+  - okular
+  - print-manager
+  # media
+  - gwenview
+  - juk
+
+WINE:
+  - winehq-staging
+  - winetricks
+
+GAMES:
+  - xboxdrv
+  - qjoypad
+# steam
+  - steam
+# lutris
+  - lutris
+  - libasound2-plugins:i386
+  - libdbus-1-3:i386
+  - libfreetype6:i386
+  - libgnutls30:i386
+  - libgpg-error0:i386
+  - libldap-2.4-2:i386
+  - libsdl2-2.0-0:i386
+  - libsqlite3-0:i386
+  - libxml2:i386
+
+MISC:
+  - cpupower-gui

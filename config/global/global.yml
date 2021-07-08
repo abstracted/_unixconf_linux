@@ -1,0 +1,278 @@
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SYSTEM
+
+os_distribution: generic_linux
+os_version: latest
+os_arch: x86-64
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# USERS
+
+users:
+  - tag: main
+    name: cameron
+    fullname: "Cameron Sanders"
+    email: csanders@protonmail.com
+    shell: /usr/bin/zsh
+    dotfiles: https://github.com/computercam/_unixconf_dotfiles.git
+    gnupg: 
+      agent_browser_socket: True
+      agent_socket: True
+      agent_ssh_socket: True
+      dirmngr_socket: True
+    groups:
+      - audio
+      - docker
+      - game
+      - golang
+      - lp
+      - networkmanager
+      - plugdev
+      - printadmin
+      - realtime
+      - scanner
+      - sshusers
+      - syncthing
+      - vboxusers
+      - wheel
+      - wireshark
+    services: []
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SUDOERS
+
+sudo:
+  nopasswd:
+    - name: "%wheel"
+      commands:
+        - /usr/bin/ansible-playbook
+        - /usr/bin/du
+        - /usr/bin/find
+        - /usr/bin/locate
+        - /usr/bin/mount
+        - /usr/bin/npm
+        - /usr/bin/openvpn
+        - /usr/bin/reboot
+        - /usr/bin/shutdown
+        - /usr/bin/systemctl
+        - /usr/bin/umount
+        - /usr/bin/vim
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# I18N & TIME
+
+i18n:
+  keymap: us
+  timezone: America/Chicago
+  locale: en_US.UTF-8
+  localtime: True
+  long: -96.796989
+  lat: 32.776665
+
+timesyncd:
+  ntp_servers: []
+  ntp_servers_fallback:
+    - 0.pool.ntp.org 
+    - 1.pool.ntp.org 
+    - 0.us.pool.ntp.org
+  root_distance_max_sec: 5
+  poll_interval_min_sec: 32
+  poll_interval_max_sec: 2048
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# FONT
+
+# TODO: This currently isn't used, maybe fix it ?
+
+font:
+  cursive: Ubuntu Italic
+  fantasy: New York Medium
+  monospace: Unbuntu Mono
+  sans_serif: Ubuntu Regular
+  serif: New York Medium
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# ENVIRONMENT VARIABLES
+
+environment_variables: []
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# FILES
+
+files:
+  locked: [] # paths to files that will have  chattr +i applied to them
+  links: [] # paths to be linked
+    # - src: /some/path/to/something
+    #   path: /some/other/path
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# LIMITS
+
+limits_conf:
+  - domain: "*"
+    type: soft
+    item: nofile
+    value: 16384
+  - domain: "*"
+    type: hard
+    item: nofile
+    value: 32768
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# FILESYSTEMS
+
+fstab: []
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# BOOT
+
+grub:
+  enabled: True
+  params:
+    - iommu=soft
+    - loglevel=3
+    - consoleblank=60
+    - threadirqs
+    - udev.log_priority=3
+
+mkinitcpio:
+  hooks:
+    - autodetect
+    - base
+    - block
+    - filesystems
+    - fsck
+    - keyboard
+    - keymap
+    - modconf
+    - resume
+    - udev
+
+plymouth:
+  enabled: False
+
+#- - - - - - - - - - - - - - - - - - - - - - -
+# KERNEL
+
+kernel:
+  packages: []
+  modules:
+    - usb_storage
+    - usbhid
+    - xhci_pci
+  sysctl:
+    - name: "fs.inotify.max_user_watches"
+      value: 524288
+
+#- - - - - - - - - - - - - - - - - - - - - - -
+# AUDIO
+
+audio:
+  sample_format: s24-32le
+  sample_rate: 44100
+  
+jack:
+  device: "hw:0"
+  capture: none
+  playback: none
+  periods: 2
+  frames: 2048
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# VIDEO
+
+video:
+  drivers:
+    intel: []
+    nvidia: []
+    amd: []
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# DOCKER
+
+docker:
+  enabled: True
+  containers: []
+  puid: 1000
+  pgid: 1000
+  storage_driver: overlay2
+  storage_root: /var/lib/docker
+  network:
+    dockernet:
+      name: dockernet
+      driver: bridge
+    default: # these are for the default docker "bridge" network
+      name: bridge
+      driver: bridge
+      cidr: 24
+      dns:
+        - 174.138.21.128
+      gateway: 172.17.0.1
+      subnet: 172.17.0.0
+      _subnet: 172.17.0. # used when assiging static ips for containers
+      iptables: "false" # wether or not you want to allow docker to modify iptables
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# NETWORK
+
+hostname: "{{ os_distribution }}"
+
+# Static network configurations: 
+# These can be used by services like dhcpcd for static routes / nameservers
+# If no services which use these settings are enabled, they have no effect.
+# Some services like NetworkManager may ignore some or all these settings.
+network_conf:
+  ip_address: 192.168.0.10
+  cidr: 24
+  subnet_mask: 255.255.255.0
+  default_gateway: 192.168.0.1
+  domain_name_servers: []
+
+# DHCPCD configurations:
+# Used as a lightweight network manager.
+# Can also be used to set static network configurations when service is enabled.
+dhcpcd:
+  static: False
+
+# NetworkManager configuration:
+# Used mostly for desktop systems. 
+# Servers should use dhcpcd.
+network_manager:
+  wifi:
+    scan_rand_mac_address: 'yes'
+    cloned_rand_mac_address: 'stable'
+  ethernet:
+    cloned_rand_mac_address: 'stable'
+  manage_dns: True # enable or disable DNS to be managed via NetworkManager
+
+# Iptables configuration:
+firewall:
+  # ports listed here will be opened via iptables
+  ports:
+    ssh: 22
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# CRON JOBS
+
+cron:
+  jobs: []
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# SERVICES
+
+# Services are configured in the order in which they are listed here.
+services:
+  - name: startup-custom.service
+    enabled: yes
+    state: started
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages_first: []
+packages_remove: []
+packages_blacklist: []
+
+# Package sets from ./packages.yml
+packages_categories:
+  - _CORE

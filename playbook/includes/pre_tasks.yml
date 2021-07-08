@@ -1,0 +1,6 @@
+---
+- include: pre_tasks_archlinux.yml
+  when: os_distribution == 'archlinux'
+
+- include: pre_tasks_ubuntu.yml
+  when: os_distribution == 'ubuntu'

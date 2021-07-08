@@ -1,0 +1,13 @@
+---
+# - - - - - - - - - - - - - - - - - - - - - - -
+# PACKAGES
+
+packages_blacklist:
+  - totem
+  - gnome-music
+  - gnome-photos
+
+packages_categories:
+  - DE_GNOME
+  - DESKTOP_GTK_APPS
+  - DESKTOP_XORG

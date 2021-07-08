@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+pgrep jackdbus || jackdbus auto &
+sleep 4
+
+jack_control ds alsa
+
+{% if jack.device is defined %}
+jack_control dps device {{ jack.device }}
+{% endif %}
+
+{% if jack.capture is defined %}
+jack_control dps capture {{ jack.capture }}
+{% endif %}
+
+{% if jack.playback is defined %}
+jack_control dps playback {{ jack.playback }}
+{% endif %}
+
+{% if audio.sample_rate is defined %}
+jack_control dps rate {{ audio.sample_rate }}
+{% endif %}
+
+{% if jack.periods is defined %}
+jack_control dps nperiods {{ jack.periods }}
+{% endif %}
+
+{% if jack.frames is defined %}
+jack_control dps period {{ jack.frames }}
+{% endif %}
+
+{% if jack.input_latency is defined %}
+jack_control dps input-latency {{ jack.input_latency }}
+{% endif %}
+
+{% if jack.output_latency is defined %}
+jack_control dps output-latency {{ jack.output_latency }}
+{% endif %}
+
+{% if jack.midi_driver is defined %}
+jack_control dps midi-driver {{ jack.midi_driver }}
+{% endif %}
+
+jack_control eps driver alsa
+jack_control eps realtime True
+
+{% if jack.midi_driver is defined %}
+jack_control eps realtime-priority {{ jack.rt_priority }}
+{% endif %}
+
+jack_control start
+
+# pgrep a2jmidid || a2jmidid dbus
+# sleep 3
+
+# a2j_control --ehw
+# a2j_control --start

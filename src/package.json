@@ -1,0 +1,35 @@
+{
+  "name": "anubix-builder",
+  "version": "1.0.0",
+  "description": "Anubix Builder is a flexible configuration management tool & Ansible playbook used for provisioning Linux operating systems.",
+  "main": "index.js",
+  "scripts": {
+    "sync": "node ./sync"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/computercam/_unixconf_linux.git"
+  },
+  "author": "Cameron Sanders",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/computercam/_unixconf_linux/issues"
+  },
+  "homepage": "https://github.com/computercam/_unixconf_linux#readme",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "commander": "^7.1.0",
+    "deep-equal": "^2.0.5",
+    "deep-object-diff": "^1.1.0",
+    "deepmerge": "^4.2.2",
+    "js-yaml": "^3.14.1",
+    "recursive-diff": "^1.0.8"
+  },
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "standard": "^16.0.3"
+  }
+}

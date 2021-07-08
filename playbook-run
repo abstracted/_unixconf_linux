@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+./generate-playbook $@ && cd playbook && ansible-playbook playbook.yml

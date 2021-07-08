@@ -1,0 +1,22 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  become: yes
+
+- name: Create a list of already installed apt packages
+  raw: "dpkg-query -f '${binary:Package}\n' -W"
+  become: yes
+  register: apt_packages_installed
+
+- name: Merge list of already installed packages
+  set_fact:
+    packages_installed: >
+      {{ apt_packages_installed.stdout_lines }}
+
+- name: Install base dependencies
+  apt: 
+    name: "{{ item }}"
+  with_items: "{{ packages_initial_dependencies }}"
+  become: yes
+  when: item not in packages_installed
