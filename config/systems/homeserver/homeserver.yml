@@ -16,7 +16,22 @@ users:
 #      - game
 
 # - - - - - - - - - - - - - - - - - - - - - - -
+# BOOT
+docker:
+  storage_root: /mnt/CAMERON/Server
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# BOOT
+grub:
+  enabled: False
+
+# - - - - - - - - - - - - - - - - - - - - - - -
 # PACKAGES
+packages_categories:
+  - SHELL
+  - DEVELOPMENT
+  - VIRTUALIZATION
+  - UTILS
 
 packages_first:
   - docker
@@ -51,7 +66,7 @@ services:
   - name: NetworkManager.service
     enabled: no
     state: stopped
-  - name: dhcpcd@eno1.service
+  - name: dhcpcd.service
     enabled: yes
     state: restarted
 

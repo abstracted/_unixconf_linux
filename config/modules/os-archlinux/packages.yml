@@ -15,6 +15,7 @@ _CORE:
   - sudo
   - acl
   - sshguard
+  - zsh
 
 UTILS:
 # _misc
@@ -68,9 +69,6 @@ DEVELOPMENT:
   - vim
   - neovim
   - nvm
-  - robo3t-bin
-  - heidisql
-  - insomnia-bin
   - python
   - python-pip
   - nodejs

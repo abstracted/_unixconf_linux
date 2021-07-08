@@ -5,12 +5,12 @@
     state: directory
   become: yes
 
-- name: "Check if template exists: {{ playbook_dir}}/docker-templates/{{ item.name }}.conf.j2"
+- name: "Check if template exists: {{ playbook_dir }}/docker-templates/{{ item.name }}.conf.j2"
   stat: 
     path: "{{ playbook_dir }}/docker-templates/{{ item.name }}.conf.j2"
   register: docker_conf_file
 
-- name: "Write template: {{ playbook_dir}}/docker-templates/{{ item.name }}.conf.j2"
+- name: "Write template: {{ playbook_dir }}/docker-templates/{{ item.name }}.conf.j2"
   template:
     src: "{{ playbook_dir}}/docker-templates/{{ item.name }}.conf.j2"
     dest: "{{ item.dir }}/{{ item.name}}.conf"
@@ -19,12 +19,12 @@
   become: yes
   when: docker_conf_file.stat.exists == True
 
-- name: "Check if template exists: {{ playbook_dir}}/docker-templates/{{ item.name }}.env.j2"
+- name: "Check if template exists: {{ playbook_dir }}/docker-templates/{{ item.name }}.env.j2"
   stat: 
     path: "{{ playbook_dir }}/docker-templates/{{ item.name }}.env.j2"
   register: docker_env_file
 
-- name: "Write template: {{ playbook_dir}}/docker-templates/{{ item.name }}.env.j2"
+- name: "Write template: {{ playbook_dir }}/docker-templates/{{ item.name }}.env.j2"
   template:
     src: "{{ playbook_dir}}/docker-templates/{{ item.name }}.env.j2"
     dest: "{{ item.dir }}/{{ item.name}}.env"
@@ -33,12 +33,12 @@
   become: yes
   when: docker_env_file.stat.exists == True
 
-- name: "Check if template exists: {{ playbook_dir}}/docker-templates/{{ item.name }}.yml.j2"
+- name: "Check if template exists: {{ playbook_dir }}/docker-templates/{{ item.name }}.yml.j2"
   stat: 
     path: "{{ playbook_dir }}/docker-templates/{{ item.name }}.yml.j2"
   register: docker_yml_file
 
-- name: "Write template: {{ playbook_dir}}/docker-templates/{{ item.name }}.yml.j2"
+- name: "Write template: {{ playbook_dir }}/docker-templates/{{ item.name }}.yml.j2"
   template:
     src: "{{ playbook_dir }}/docker-templates/{{ item.name }}.yml.j2"
     dest: "{{ item.dir }}/docker-compose.yml"
