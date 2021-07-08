@@ -1,0 +1,20 @@
+firewall:
+  ports:
+    vscode: "{{ docker.vars.vscode.ports.https }}"
+
+docker:
+  containers:
+    - name: vscode
+      dir: /mnt/CAMERON/Server/vscode
+      state: present
+  vars:
+    vscode:  
+      env:
+        url: vscode.cameron.computer
+      volumes:
+        config: /mnt/CAMERON/Server/vscode/config
+        notes: /mnt/CAMERON/Notes 
+        development: /mnt/CAMERON/Development 
+      ports:
+        https: 8443
+
