@@ -71,7 +71,6 @@ fstab:
     fstype: "ext4"
     state: mounted
     opts: "{{ filesystem_external_opts }}"
-
   - src: "/dev/disk/by-label/CAMERON"
     path: "/mnt/CAMERON"
     fstype: "ext4"
